@@ -18,7 +18,7 @@
 		<servlet.version>3.1.0</servlet.version>
 		<hibernate.version>4.3.11.Final</hibernate.version>
 		<jackson.version>2.6.4</jackson.version>
-		<postgres.jdbc.version>9.3-1102-jdbc41</postgres.jdbc.version>
+		<postgres.jdbc.version>42.2.2</postgres.jdbc.version>
 		<hibernate.validator.version>5.2.2.Final</hibernate.validator.version>
 		<jstl.version>1.2</jstl.version>
 		<aspectj.version>1.8.7</aspectj.version>
