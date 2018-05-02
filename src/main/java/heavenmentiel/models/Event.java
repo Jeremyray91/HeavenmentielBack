@@ -141,8 +141,10 @@ public class Event {
 	@NotBlank
 	private String description;
 	@Enumerated(EnumType.STRING)
+	@NotBlank
 	private Status status;
 	
+	public Event(){}
 	
 	public Event(Long id,
 			String name,
