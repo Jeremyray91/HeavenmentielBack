@@ -11,8 +11,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
-import heavenmentiel.enums.Status;
-import heavenmentiel.enums.Theme;
 import heavenmentiel.enums.TypeEvent;
 
 @Entity
@@ -22,6 +20,7 @@ public class Event {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "eventId")
 	private Long id;
+
 	public Long getId() {
 		return id;
 	}
@@ -82,24 +81,15 @@ public class Event {
 	}
 
 
-	public Integer getSeatsAvaliable() {
-		return seatsAvaliable;
+	public Integer getSeatsAvailable() {
+		return seatsAvailable;
 	}
 
 
-	public void setSeatsAvaliable(Integer seatsAvaliable) {
-		this.seatsAvaliable = seatsAvaliable;
+	public void setSeatsAvailable(Integer seatsAvaliable) {
+		this.seatsAvailable = seatsAvaliable;
 	}
 
-
-	public Theme getTheme() {
-		return theme;
-	}
-
-
-	public void setTheme(Theme theme) {
-		this.theme = theme;
-	}
 
 
 	public String getDescription() {
@@ -109,16 +99,6 @@ public class Event {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-
-	public Status getStatus() {
-		return status;
-	}
-
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 
@@ -134,15 +114,22 @@ public class Event {
 	@NotNull
 	private Float price;
 	@NotNull
-	private Integer seatsAvaliable;
-	@Enumerated(EnumType.STRING)
-	@NotBlank
-	private Theme theme;
+	private Integer seatsAvailable;
+	
 	@NotBlank
 	private String description;
-	@Enumerated(EnumType.STRING)
+	
 	@NotBlank
-	private Status status;
+	private Boolean available;
+	
+	public Boolean isAvailable() {
+		return available;
+	}
+
+
+	public void setAvailable(Boolean available) {
+		this.available = available;
+	}
 	
 	public Event(){}
 	
@@ -153,7 +140,6 @@ public class Event {
 			Date dateEvent,
 			Float price,
 			Integer seatsAvaliable,
-			Theme theme,
 			String description) {
 									this.id = id;
 									this.name = name;
@@ -161,8 +147,7 @@ public class Event {
 									this.type = type;
 									this.dateEvent = dateEvent;
 									this.price = price;
-									this.seatsAvaliable = seatsAvaliable;
-									this.theme = theme;
+									this.seatsAvailable = seatsAvaliable;
 									this.description = description;
 	}
 }

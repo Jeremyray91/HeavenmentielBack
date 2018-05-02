@@ -98,9 +98,9 @@ public class EventRepo {
 		rootNode.put("place", event.getPlace());
 		rootNode.put("type", event.getType().toString());
 		rootNode.put("date", event.getDateEvent().toString());
-		rootNode.put("price", event.getSeatsAvaliable());
-		rootNode.put("theme", event.getTheme().toString());
-		rootNode.put("status", event.getStatus().toString());
+		rootNode.put("price", event.getPrice());
+		rootNode.put("seatsAvailable", event.getSeatsAvailable());
+		rootNode.put("available", event.isAvailable());
 		return rootNode;
 	}
 	
