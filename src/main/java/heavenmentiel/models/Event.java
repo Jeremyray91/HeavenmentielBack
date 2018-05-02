@@ -28,33 +28,24 @@ public class Event {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "eventId")
 	private Long id;
-	
 	@NotBlank
 	private String name;
-	
 	@NotBlank
 	private String place;
-	
 	@Enumerated(EnumType.STRING)
 	@NotBlank
 	private TypeEvent type; 
-	
 	@NotNull
 	private Date dateEvent;
-	
 	@NotNull
 	private Float price;
-	
 	@NotNull
 	private Integer seatsAvaliable;
-	
 	@Enumerated(EnumType.STRING)
 	@NotBlank
 	private Theme theme;
-	
 	@NotBlank
 	private String description;
-	
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	

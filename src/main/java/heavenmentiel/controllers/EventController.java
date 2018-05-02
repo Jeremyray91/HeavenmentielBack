@@ -18,12 +18,24 @@ import heavenmentiel.services.EventService;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins ="*")
-public class Controller {
+public class EventController {
 	@Autowired EventService evs;
 
 	@RequestMapping(value ="/event/multicriteria", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public JsonNode getMultiCriteria(@RequestParam("name") String name,@RequestParam("datemin") Date datemin,@RequestParam("datemax") Date datemax,@RequestParam("place") String place,@RequestParam("types") TypeEvent types,@RequestParam("pricemin") Float pricemin,@RequestParam("pricemax") Float pricemax)
-	{
+		public JsonNode getMultiCriteria(
+										@RequestParam("name") String name,
+										@RequestParam("datemin") Date datemin,
+										@RequestParam("datemax") Date datemax,
+										@RequestParam("place") String place,
+										@RequestParam("types") TypeEvent types,
+										@RequestParam("pricemin") Float pricemin,
+										@RequestParam("pricemax") Float pricemax)
+		{
 		return evs.getMultiCriteria(name, datemin, datemax, place, types, pricemin, pricemax);
+	}
+	
+	@RequestMapping(value ="/event", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public JsonNode getAll() {
+		return evs.getAll();
 	}
 }

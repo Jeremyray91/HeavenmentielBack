@@ -1,11 +1,15 @@
 package heavenmentiel.repositories;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,16 +37,51 @@ public class EventRepo {
 		return evenements;
 	}
 	
-	public JsonNode getMultiCriteria(String name, Date datemin, Date datemax, String place, TypeEvent types, Float pricemin, Float pricemax) {
-		TypedQuery<Event> query = em.createQuery("from Event event where name like :name and (date > :datemin and date < :datemax) and place like :place and type in (:types) and price >= :pricemin and oruce <= :pricemax", Event.class);
-		query.setParameter("name", name);
-		query.setParameter("datemin", datemin);
-		query.setParameter("datemax", datemax);
-		query.setParameter("place", place);
-		query.setParameter("types", types);
-		query.setParameter("pricemin", pricemin);
-		query.setParameter("pricemax", pricemax);
-		List<Event> events = query.getResultList();
+	public JsonNode getMultiCriteria(
+									String name,
+									Date datemin,
+									Date datemax,
+									String place,
+									TypeEvent types,
+									Float pricemin,
+									Float pricemax) {
+
+		CriteriaBuilder queryBuilder = em.getCriteriaBuilder();
+		CriteriaQuery createQuery = queryBuilder.createQuery();
+		Root<Event> customer =	createQuery.from(Event.class);
+		
+		//Constructing list of parameters
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		if (name != null) {
+			predicates.add(
+					queryBuilder.equal(customer.get("name"), name));
+		}if (datemin != null) {
+			predicates.add(
+					queryBuilder.equal(customer.get("datemin"), datemin));
+		}if (datemax != null) {
+			predicates.add(
+					queryBuilder.equal(customer.get("datemax"), datemax));
+		}if (place != null) {
+			predicates.add(
+					queryBuilder.equal(customer.get("place"), place));
+		}if (types != null) {
+			predicates.add(
+					queryBuilder.equal(customer.get("types"), place));
+		}if (pricemin != null) {
+			predicates.add(
+					queryBuilder.equal(customer.get("pricemin"), pricemin));
+		}if (pricemax != null) {
+			predicates.add(
+					queryBuilder.equal(customer.get("pricemax"), pricemax));
+		}
+		//Query itself
+		createQuery.select(customer)
+        				.where(predicates.toArray(new Predicate[]{}));
+		
+		//Execute query and do something with result
+		List<Event> events = em.createQuery(createQuery).getResultList();
+		
+		//Convert to json
 		ObjectMapper mapper = new ObjectMapper();
 		ArrayNode evenements = mapper.createArrayNode();
 		for(Event event : events) {
