@@ -100,7 +100,7 @@ public class EventRepo {
 		rootNode.put("description", event.getDescription());
 		rootNode.put("shortDescription", event.getShortDescription());
 		rootNode.put("available", event.isAvailable());
-		rootNode.put("image", event.getImg());
+		rootNode.put("img", event.getImg());
 		return rootNode;
 	}
 
