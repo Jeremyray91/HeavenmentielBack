@@ -21,6 +21,10 @@ public class EventService {
 		return evr.getAll();
 	}
 	
+	public JsonNode getAllByDate() {
+		return evr.getAllByDate();
+	}
+	
 	public JsonNode getMultiCriteria(String name, Date datemin, Date datemax, String place, TypeEvent types, Float pricemin, Float pricemax) {
 		return evr.getMultiCriteria(place, datemax, datemax, place, types, pricemax, pricemax);
 	}
