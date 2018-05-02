@@ -14,8 +14,8 @@ import org.hibernate.validator.constraints.NotBlank;
 import heavenmentiel.enums.TypeEvent;
 
 @Entity
-@Table(name ="Event")
-@SequenceGenerator(sequenceName ="event_id_seq", name = "eventId", initialValue = 1, allocationSize = 1)
+@Table(name = "Event")
+@SequenceGenerator(sequenceName = "event_id_seq", name = "eventId", initialValue = 1, allocationSize = 1)
 public class Event {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "eventId")
@@ -26,7 +26,7 @@ public class Event {
 	private String place;
 	@Enumerated(EnumType.STRING)
 	@NotBlank
-	private TypeEvent type; 
+	private TypeEvent type;
 	@NotNull
 	private Date dateEvent;
 	@NotNull
@@ -36,10 +36,29 @@ public class Event {
 	@NotBlank
 	private String description;
 	@NotBlank
-	private Boolean available;
+	private String shortDescription;
 	@NotBlank
+	private Boolean available;
 	private String img;
-	
+
+	public Event() {
+	}
+
+	public Event(Long id, String name, String place, TypeEvent type, Date dateEvent, Float price,
+			Integer seatsAvaliable, String description, String shortDescription, Boolean available, String img) {
+		this.id = id;
+		this.name = name;
+		this.place = place;
+		this.type = type;
+		this.dateEvent = dateEvent;
+		this.price = price;
+		this.seatsAvailable = seatsAvaliable;
+		this.description = description;
+		this.shortDescription = shortDescription;
+		this.available = available;
+		this.img = img;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -52,111 +71,83 @@ public class Event {
 		return name;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public String getPlace() {
 		return place;
 	}
 
-
 	public void setPlace(String place) {
 		this.place = place;
 	}
-
 
 	public TypeEvent getType() {
 		return type;
 	}
 
-
 	public void setType(TypeEvent type) {
 		this.type = type;
 	}
-
 
 	public Date getDateEvent() {
 		return dateEvent;
 	}
 
-
 	public void setDateEvent(Date dateEvent) {
 		this.dateEvent = dateEvent;
 	}
-
 
 	public Float getPrice() {
 		return price;
 	}
 
-
 	public void setPrice(Float price) {
 		this.price = price;
 	}
-
 
 	public Integer getSeatsAvailable() {
 		return seatsAvailable;
 	}
 
-
 	public void setSeatsAvailable(Integer seatsAvaliable) {
 		this.seatsAvailable = seatsAvaliable;
 	}
-
-
 
 	public String getDescription() {
 		return description;
 	}
 
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	public String getImg() {
-		return img;
+
+	public String getShortDescription() {
+		return shortDescription;
 	}
 
-	public void setImg(String img) {
-		this.img = img;
+	public void setShortDescription(String shortDescription) {
+		this.shortDescription = shortDescription;
 	}
 
+	public Boolean getAvailable() {
+		return available;
+	}
 
 	public Boolean isAvailable() {
 		return available;
 	}
 
-
 	public void setAvailable(Boolean available) {
 		this.available = available;
 	}
+
+	public String getImg() {
+		return img;
+	}
 	
-	public Event(){}
-	
-	public Event(Long id,
-			String name,
-			String place,
-			TypeEvent type,
-			Date dateEvent,
-			Float price,
-			Integer seatsAvaliable,
-			Boolean available,
-			String description,
-			String img) {
-									this.id = id;
-									this.name = name;
-									this.place = place;
-									this.type = type;
-									this.dateEvent = dateEvent;
-									this.price = price;
-									this.seatsAvailable = seatsAvaliable;
-									this.available = available;
-									this.description = description;
-									this.img = img;
+	public void setImg(String img) {
+		this.img = img;
 	}
 }

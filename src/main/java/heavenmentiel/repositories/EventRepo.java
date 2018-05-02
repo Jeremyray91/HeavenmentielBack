@@ -36,67 +36,59 @@ public class EventRepo {
 		List<Event> events = em.createQuery("from Event", Event.class).getResultList();
 		ObjectMapper mapper = new ObjectMapper();
 		ArrayNode evenements = mapper.createArrayNode();
-		for(Event event : events) {
+		for (Event event : events) {
 			evenements.add(toJsonEvent(event));
 		}
 		return evenements;
 	}
-	
-	public JsonNode getMultiCriteria(
-									String name,
-									Date datemin,
-									Date datemax,
-									String place,
-									TypeEvent types,
-									Float pricemin,
-									Float pricemax) {
+
+	public JsonNode getMultiCriteria(String name, Date datemin, Date datemax, String place, TypeEvent types,
+			Float pricemin, Float pricemax) {
 
 		CriteriaBuilder queryBuilder = em.getCriteriaBuilder();
 		CriteriaQuery createQuery = queryBuilder.createQuery();
-		Root<Event> customer =	createQuery.from(Event.class);
-		
-		//Constructing list of parameters
+		Root<Event> customer = createQuery.from(Event.class);
+
+		// Constructing list of parameters
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		if (name != null) {
-			predicates.add(
-					queryBuilder.equal(customer.get("name"), name));
-		}if (datemin != null) {
-			predicates.add(
-					queryBuilder.equal(customer.get("datemin"), datemin));
-		}if (datemax != null) {
-			predicates.add(
-					queryBuilder.equal(customer.get("datemax"), datemax));
-		}if (place != null) {
-			predicates.add(
-					queryBuilder.equal(customer.get("place"), place));
-		}if (types != null) {
-			predicates.add(
-					queryBuilder.equal(customer.get("types"), place));
-		}if (pricemin != null) {
-			predicates.add(
-					queryBuilder.equal(customer.get("pricemin"), pricemin));
-		}if (pricemax != null) {
-			predicates.add(
-					queryBuilder.equal(customer.get("pricemax"), pricemax));
+			predicates.add(queryBuilder.equal(customer.get("name"), name));
 		}
-		//Query itself
-		createQuery.select(customer)
-        				.where(predicates.toArray(new Predicate[]{}));
-		
-		//Execute query and do something with result
+		if (datemin != null) {
+			predicates.add(queryBuilder.equal(customer.get("datemin"), datemin));
+		}
+		if (datemax != null) {
+			predicates.add(queryBuilder.equal(customer.get("datemax"), datemax));
+		}
+		if (place != null) {
+			predicates.add(queryBuilder.equal(customer.get("place"), place));
+		}
+		if (types != null) {
+			predicates.add(queryBuilder.equal(customer.get("types"), place));
+		}
+		if (pricemin != null) {
+			predicates.add(queryBuilder.equal(customer.get("pricemin"), pricemin));
+		}
+		if (pricemax != null) {
+			predicates.add(queryBuilder.equal(customer.get("pricemax"), pricemax));
+		}
+		// Query itself
+		createQuery.select(customer).where(predicates.toArray(new Predicate[] {}));
+
+		// Execute query and do something with result
 		List<Event> events = em.createQuery(createQuery).getResultList();
-		
-		//Convert to json
+
+		// Convert to json
 		ObjectMapper mapper = new ObjectMapper();
 		ArrayNode evenements = mapper.createArrayNode();
-		for(Event event : events) {
+		for (Event event : events) {
 			evenements.add(toJsonEvent(event));
 		}
 		return evenements;
 	}
-	
+
 	public JsonNode toJsonEvent(Event event) {
-		ObjectMapper mapper =  new ObjectMapper();
+		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode rootNode = mapper.createObjectNode();
 		rootNode.put("id", event.getId());
 		rootNode.put("name", event.getName());
@@ -106,10 +98,10 @@ public class EventRepo {
 		rootNode.put("price", event.getPrice());
 		rootNode.put("seatsAvailable", event.getSeatsAvailable());
 		rootNode.put("description", event.getDescription());
+		rootNode.put("shortDescription", event.getShortDescription());
 		rootNode.put("available", event.isAvailable());
-		rootNode.put("img", event.getImg());
+		rootNode.put("image", event.getImg());
 		return rootNode;
 	}
-	
-	
+
 }

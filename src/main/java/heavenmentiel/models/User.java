@@ -13,20 +13,19 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 import heavenmentiel.enums.RoleEnum;
 
-
 @Entity
-@Table(name ="User_")
-@SequenceGenerator(sequenceName = "seq_id_user", name="userId", initialValue = 1, allocationSize = 1)
+@Table(name = "User_")
+@SequenceGenerator(sequenceName = "seq_id_user", name = "userId", initialValue = 1, allocationSize = 1)
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userId")
 	private Long id;
 	@NotBlank
-	private String firstname;
+	private String firstName;
 	@NotBlank
-	private String lastname;
+	private String lastName;
 	@NotNull
-	private Date dateNaissance;
+	private Date birthDay;
 	@NotBlank
 	private String adress;
 	@NotNull
@@ -42,31 +41,26 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	@NotBlank
 	private RoleEnum role;
-	
-	public User() {}
-	
-	public User(Long id,
-				String firstname,
-				String lastname,
-				Date dateNaissance,
-				String adress,
-				Integer zipCode,
-				String city, String mail,
-				Integer tel,
-				String pwd,
-				RoleEnum role) {
-									this.id = id;
-									this.firstname = firstname;
-									this.lastname = lastname;
-									this.dateNaissance = dateNaissance;
-									this.adress = adress;
-									this.zipCode = zipCode;
-									this.city = city;
-									this.mail = mail;
-									this.tel = tel;
-									this.pwd = pwd;
-									this.role = role;
+
+	public User() {
+
 	}
+
+	public User(Long id, String firstname, String lastname, Date birthDay, String adress, Integer zipCode,
+			String city, String mail, Integer tel, String pwd, RoleEnum role) {
+		this.id = id;
+		this.firstName = firstname;
+		this.lastName = lastname;
+		this.birthDay = birthDay;
+		this.adress = adress;
+		this.zipCode = zipCode;
+		this.city = city;
+		this.mail = mail;
+		this.tel = tel;
+		this.pwd = pwd;
+		this.role = role;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -76,27 +70,27 @@ public class User {
 	}
 
 	public String getFirstname() {
-		return firstname;
+		return firstName;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setFirstname(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getLastname() {
-		return lastname;
+		return lastName;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastname(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public Date getDateNaissance() {
-		return dateNaissance;
+		return birthDay;
 	}
 
-	public void setDateNaissance(Date dateNaissance) {
-		this.dateNaissance = dateNaissance;
+	public void setDateNaissance(Date birthDay) {
+		this.birthDay = birthDay;
 	}
 
 	public String getAdress() {
