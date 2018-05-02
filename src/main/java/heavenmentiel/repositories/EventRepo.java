@@ -27,6 +27,11 @@ import heavenmentiel.models.Event;
 public class EventRepo {
 	@PersistenceContext	EntityManager em;
 	
+	public String createEvent(Event event) {
+		em.persist(event);
+		return "Ajout éffectué";
+	}
+	
 	public JsonNode getAll() {
 		List<Event> events = em.createQuery("from Event", Event.class).getResultList();
 		ObjectMapper mapper = new ObjectMapper();
@@ -100,7 +105,9 @@ public class EventRepo {
 		rootNode.put("date", event.getDateEvent().toString());
 		rootNode.put("price", event.getPrice());
 		rootNode.put("seatsAvailable", event.getSeatsAvailable());
+		rootNode.put("description", event.getDescription());
 		rootNode.put("available", event.isAvailable());
+		rootNode.put("img", event.getImg());
 		return rootNode;
 	}
 	

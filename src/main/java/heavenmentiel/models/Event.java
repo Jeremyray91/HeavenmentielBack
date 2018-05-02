@@ -20,16 +20,33 @@ public class Event {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "eventId")
 	private Long id;
-
+	@NotBlank
+	private String name;
+	@NotBlank
+	private String place;
+	@Enumerated(EnumType.STRING)
+	@NotBlank
+	private TypeEvent type; 
+	@NotNull
+	private Date dateEvent;
+	@NotNull
+	private Float price;
+	@NotNull
+	private Integer seatsAvailable;
+	@NotBlank
+	private String description;
+	@NotBlank
+	private Boolean available;
+	@NotBlank
+	private String img;
+	
 	public Long getId() {
 		return id;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public String getName() {
 		return name;
@@ -100,27 +117,6 @@ public class Event {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-
-	@NotBlank
-	private String name;
-	@NotBlank
-	private String place;
-	@Enumerated(EnumType.STRING)
-	@NotBlank
-	private TypeEvent type; 
-	@NotNull
-	private Date dateEvent;
-	@NotNull
-	private Float price;
-	@NotNull
-	private Integer seatsAvailable;
-	@NotBlank
-	private String description;
-	@NotBlank
-	private Boolean available;
-	
-	private String img;
 	
 	public String getImg() {
 		return img;
@@ -149,7 +145,9 @@ public class Event {
 			Date dateEvent,
 			Float price,
 			Integer seatsAvaliable,
-			String description) {
+			Boolean available,
+			String description,
+			String img) {
 									this.id = id;
 									this.name = name;
 									this.place = place;
@@ -157,6 +155,8 @@ public class Event {
 									this.dateEvent = dateEvent;
 									this.price = price;
 									this.seatsAvailable = seatsAvaliable;
+									this.available = available;
 									this.description = description;
+									this.img = img;
 	}
 }

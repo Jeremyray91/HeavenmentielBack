@@ -33,6 +33,40 @@ public class User {
 	private Integer zipCode;
 	@NotBlank
 	private String city;
+	@NotBlank
+	private String mail;
+	@NotNull
+	private Integer tel;
+	@NotBlank
+	private String pwd;
+	@Enumerated(EnumType.STRING)
+	@NotBlank
+	private RoleEnum role;
+	
+	public User() {}
+	
+	public User(Long id,
+				String firstname,
+				String lastname,
+				Date dateNaissance,
+				String adress,
+				Integer zipCode,
+				String city, String mail,
+				Integer tel,
+				String pwd,
+				RoleEnum role) {
+									this.id = id;
+									this.firstname = firstname;
+									this.lastname = lastname;
+									this.dateNaissance = dateNaissance;
+									this.adress = adress;
+									this.zipCode = zipCode;
+									this.city = city;
+									this.mail = mail;
+									this.tel = tel;
+									this.pwd = pwd;
+									this.role = role;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -121,41 +155,4 @@ public class User {
 		this.role = role;
 	}
 
-	@NotBlank
-	private String mail;
-	@NotNull
-	private Integer tel;
-	@NotBlank
-	private String pwd;
-	@Enumerated(EnumType.STRING)
-	@NotBlank
-	private RoleEnum role;
-	
-	public User() {
-		
-	}
-	
-	public User(Long id,
-				String firstname,
-				String lastname,
-				Date dateNaissance,
-				String adress,
-				Integer zipCode,
-				String city, String mail,
-				Integer tel,
-				String pwd,
-				RoleEnum role) {
-									this.id = id;
-									this.firstname = firstname;
-									this.lastname = lastname;
-									this.dateNaissance = dateNaissance;
-									this.adress = adress;
-									this.zipCode = zipCode;
-									this.city = city;
-									this.mail = mail;
-									this.tel = tel;
-									this.pwd = pwd;
-									this.role = role;
-	}
-	
 }
