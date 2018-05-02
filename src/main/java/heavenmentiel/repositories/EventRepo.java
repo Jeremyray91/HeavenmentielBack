@@ -41,6 +41,16 @@ public class EventRepo {
 		}
 		return evenements;
 	}
+	
+	public JsonNode getAllByDate() {
+		List<Event> events = em.createQuery("from Event order by dateEvent", Event.class).getResultList();
+		ObjectMapper mapper = new ObjectMapper();
+		ArrayNode evenements = mapper.createArrayNode();
+		for (Event event : events) {
+			evenements.add(toJsonEvent(event));
+		}
+		return evenements;
+	}
 
 	public JsonNode getMultiCriteria(String name, Date datemin, Date datemax, String place, TypeEvent types,
 			Float pricemin, Float pricemax) {
