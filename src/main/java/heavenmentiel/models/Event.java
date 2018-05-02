@@ -115,13 +115,22 @@ public class Event {
 	private Float price;
 	@NotNull
 	private Integer seatsAvailable;
-	
 	@NotBlank
 	private String description;
-	
 	@NotBlank
 	private Boolean available;
 	
+	private String img;
+	
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+
 	public Boolean isAvailable() {
 		return available;
 	}
