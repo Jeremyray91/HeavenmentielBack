@@ -32,7 +32,7 @@ public class Event {
 	@NotNull
 	private Float price;
 	@NotNull
-	private Integer seatsAvailable;
+	private Integer stock;
 	@NotBlank
 	private String description;
 	@NotBlank
@@ -45,13 +45,13 @@ public class Event {
 	}
 
 	public Event(String name, String place, TypeEvent type, Date dateEvent, Float price,
-			Integer seatsAvaliable, String description, String shortDescription, Boolean available, String img) {
+			Integer stock, String description, String shortDescription, Boolean available, String img) {
 		this.name = name;
 		this.place = place;
 		this.type = type;
 		this.dateEvent = dateEvent;
 		this.price = price;
-		this.seatsAvailable = seatsAvaliable;
+		this.stock = stock;
 		this.description = description;
 		this.shortDescription = shortDescription;
 		this.available = available;
@@ -106,12 +106,12 @@ public class Event {
 		this.price = price;
 	}
 
-	public Integer getSeatsAvailable() {
-		return seatsAvailable;
+	public Integer getStock() {
+		return stock;
 	}
 
-	public void setSeatsAvailable(Integer seatsAvaliable) {
-		this.seatsAvailable = seatsAvaliable;
+	public void setStock(Integer seatsAvaliable) {
+		this.stock = seatsAvaliable;
 	}
 
 	public String getDescription() {

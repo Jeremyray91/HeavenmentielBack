@@ -96,7 +96,7 @@ public class EventRepo {
 		rootNode.put("type", event.getType().toString());
 		rootNode.put("date", event.getDateEvent().toString());
 		rootNode.put("price", event.getPrice());
-		rootNode.put("seatsAvailable", event.getSeatsAvailable());
+		rootNode.put("stock", event.getStock());
 		rootNode.put("description", event.getDescription());
 		rootNode.put("shortDescription", event.getShortDescription());
 		rootNode.put("available", event.isAvailable());
