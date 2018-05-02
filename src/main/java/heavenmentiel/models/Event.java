@@ -25,7 +25,7 @@ public class Event {
 	@NotBlank
 	private String place;
 	@Enumerated(EnumType.STRING)
-	@NotBlank
+	@NotNull
 	private TypeEvent type;
 	@NotNull
 	private Date dateEvent;
@@ -37,16 +37,15 @@ public class Event {
 	private String description;
 	@NotBlank
 	private String shortDescription;
-	@NotBlank
+	@NotNull
 	private Boolean available;
 	private String img;
 
 	public Event() {
 	}
 
-	public Event(Long id, String name, String place, TypeEvent type, Date dateEvent, Float price,
+	public Event(String name, String place, TypeEvent type, Date dateEvent, Float price,
 			Integer seatsAvaliable, String description, String shortDescription, Boolean available, String img) {
-		this.id = id;
 		this.name = name;
 		this.place = place;
 		this.type = type;
