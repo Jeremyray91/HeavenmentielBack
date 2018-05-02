@@ -1,5 +1,8 @@
 package heavenmentiel.controllers;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +29,24 @@ public class EventController {
 	@RequestMapping(value ="/events/multicriteria", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 		public JsonNode getMultiCriteria(
 										@RequestParam("name") String name,
-										@RequestParam("datemin") Date datemin,
-										@RequestParam("datemax") Date datemax,
+										@RequestParam("datemin") String datemin,
+										@RequestParam("datemax") String datemax,
 										@RequestParam("place") String place,
 										@RequestParam("types") TypeEvent types,
 										@RequestParam("pricemin") Float pricemin,
 										@RequestParam("pricemax") Float pricemax)
 		{
-		return evs.getMultiCriteria(name, datemin, datemax, place, types, pricemin, pricemax);
+		DateFormat formatter = new SimpleDateFormat("yyyy-M-d");
+		
+		Date dateMin = null;
+		Date dateMax = null;
+		try {
+			dateMin = formatter.parse(datemin);
+			dateMax = formatter.parse(datemax);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return evs.getMultiCriteria(name, dateMin, dateMax, place, types, pricemin, pricemax);
 	}
 	
 	@RequestMapping(value ="/events", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

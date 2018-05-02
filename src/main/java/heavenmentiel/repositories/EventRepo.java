@@ -55,22 +55,22 @@ public class EventRepo {
 			predicates.add(queryBuilder.equal(customer.get("name"), name));
 		}
 		if (datemin != null) {
-			predicates.add(queryBuilder.equal(customer.get("datemin"), datemin));
+			predicates.add(queryBuilder.greaterThanOrEqualTo(customer.get("dateEvent"), datemin));
 		}
 		if (datemax != null) {
-			predicates.add(queryBuilder.equal(customer.get("datemax"), datemax));
+			predicates.add(queryBuilder.lessThanOrEqualTo(customer.get("dateEvent"), datemax));
 		}
 		if (place != null) {
 			predicates.add(queryBuilder.equal(customer.get("place"), place));
 		}
 		if (types != null) {
-			predicates.add(queryBuilder.equal(customer.get("types"), place));
+			predicates.add(queryBuilder.equal(customer.get("type"), types));
 		}
 		if (pricemin != null) {
-			predicates.add(queryBuilder.equal(customer.get("pricemin"), pricemin));
+			predicates.add(queryBuilder.greaterThanOrEqualTo(customer.get("price"), pricemin));
 		}
 		if (pricemax != null) {
-			predicates.add(queryBuilder.equal(customer.get("pricemax"), pricemax));
+			predicates.add(queryBuilder.lessThanOrEqualTo(customer.get("price"), pricemax));
 		}
 		// Query itself
 		createQuery.select(customer).where(predicates.toArray(new Predicate[] {}));
