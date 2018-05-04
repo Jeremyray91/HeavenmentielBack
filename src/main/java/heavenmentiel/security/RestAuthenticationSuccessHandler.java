@@ -11,17 +11,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Component
 public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RestAuthenticationSuccessHandler.class);
 
+	@CrossOrigin(origins = "http://localhost:4200")
 	@Override
 	//Redirige vers une url en cas de succés d'authentification
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		LOGGER.info("Authentication was successful");
-		response.sendRedirect(response.encodeRedirectURL("/heavenmentiel/api/events"));
+		//response.sendRedirect(response.encodeRedirectURL("/heavenmentiel/test"));
+		response.setStatus(HttpServletResponse.SC_ACCEPTED);
 	}
 }

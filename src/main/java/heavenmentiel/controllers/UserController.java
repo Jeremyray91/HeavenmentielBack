@@ -2,6 +2,7 @@ package heavenmentiel.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,10 +21,15 @@ public class UserController {
 	@Autowired
 	UserRepository userRepo;
 	
-	@RequestMapping(value="", method= RequestMethod.POST)
+	@RequestMapping(value="", method=RequestMethod.POST)
 	public void test()
-    {
-        userRepo.add(passwordEncoder.encode("test"));
-    }
+	{
+		userRepo.add(passwordEncoder.encode("test"));
+	}
 	
+	@RequestMapping(value="", method=RequestMethod.GET)
+	public String success()
+	{
+		return "success";
+	}
 }

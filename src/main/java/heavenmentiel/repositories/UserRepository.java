@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,19 +47,12 @@ public class UserRepository {
 	public void create(User user) {
 		em.persist(user);
 	}
-	
+
 	public void add(String mdp) {
-        User user = new User();
-        user.setAdress("bl");
-        user.setCity("blbl");
-        user.setDateNaissance(new Date());
-        user.setFirstname("blbl");
-        user.setLastname("bl");
-        user.setTel(6544684);
-        user.setZipCode(65468);
-        user.setRole(RoleEnum.ADMIN);
-        user.setMail("test");
-        user.setPwd(mdp);
-        em.persist(user);
-    }
+		User user = new User();
+		user.setRole(RoleEnum.ADMIN);
+		user.setMail("test");
+		user.setPwd(mdp);
+		em.persist(user);
+	}
 }
