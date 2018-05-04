@@ -22,27 +22,29 @@ import heavenmentiel.services.EventService;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins ="*")
+@CrossOrigin(origins ="http://localhost:4200")
 public class EventController {
 	@Autowired EventService evs;
 
 	@RequestMapping(value ="/events/multicriteria", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 		public JsonNode getMultiCriteria(
-										@RequestParam("name") String name,
-										@RequestParam("datemin") String datemin,
-										@RequestParam("datemax") String datemax,
-										@RequestParam("place") String place,
-										@RequestParam("types") TypeEvent types,
-										@RequestParam("pricemin") Float pricemin,
-										@RequestParam("pricemax") Float pricemax)
+										@RequestParam(value = "name",required=false) String name,
+										@RequestParam(value = "datemin",required=false) String datemin,
+										@RequestParam(value = "datemax",required=false) String datemax,
+										@RequestParam(value = "place",required=false) String place,
+										@RequestParam(value = "types",required=false) TypeEvent types,
+										@RequestParam(value = "pricemin",required=false) Float pricemin,
+										@RequestParam(value = "pricemax",required=false) Float pricemax)
 		{
-		DateFormat formatter = new SimpleDateFormat("yyyy-M-d");
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		
 		Date dateMin = null;
 		Date dateMax = null;
 		try {
-			dateMin = formatter.parse(datemin);
-			dateMax = formatter.parse(datemax);
+			if(datemin!=null) 
+				dateMin = formatter.parse(datemin);
+			if(datemax!=null)
+				dateMax = formatter.parse(datemax);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -62,5 +64,11 @@ public class EventController {
 	@RequestMapping(value = "/events", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public String createEvent(@RequestBody Event event) {
 		return evs.createEvent(event);
+	}
+	
+	@CrossOrigin(origins ="http://localhost:4200")
+	@RequestMapping(value = "/types", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public JsonNode getTypes() {
+		return evs.getTypes();
 	}
 }
