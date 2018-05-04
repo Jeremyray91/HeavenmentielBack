@@ -40,12 +40,13 @@ public class Event {
 	@NotNull
 	private Boolean available;
 	private String img;
+	private String imgMin;
 
 	public Event() {
 	}
 
 	public Event(String name, String place, TypeEvent type, Date dateEvent, Float price,
-			Integer stock, String description, String shortDescription, Boolean available, String img) {
+			Integer stock, String description, String shortDescription, Boolean available, String img, String imgMin) {
 		this.name = name;
 		this.place = place;
 		this.type = type;
@@ -56,6 +57,7 @@ public class Event {
 		this.shortDescription = shortDescription;
 		this.available = available;
 		this.img = img;
+		this.imgMin = imgMin;
 	}
 
 	public Long getId() {
@@ -148,5 +150,13 @@ public class Event {
 	
 	public void setImg(String img) {
 		this.img = img;
+	}
+
+	public String getImgMin() {
+		return imgMin;
+	}
+
+	public void setImgMin(String imgMin) {
+		this.imgMin = imgMin;
 	}
 }

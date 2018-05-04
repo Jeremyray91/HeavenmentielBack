@@ -57,6 +57,16 @@ public class EventRepo {
 		}
 		return evenements;
 	}
+	
+	public JsonNode getLastFiveAdd() {
+		List<Event> events = em.createQuery("from Event order by dateEvent", Event.class).setMaxResults(5).getResultList();
+		ObjectMapper mapper = new ObjectMapper();
+		ArrayNode evenements = mapper.createArrayNode();
+		for (Event event : events) {
+			evenements.add(toJsonEvent(event));
+		}
+		return evenements;
+	}
 
 	public JsonNode getMultiCriteria(String name, Date datemin, Date datemax, String place, TypeEvent types,Float pricemin, Float pricemax) {
 
@@ -151,6 +161,7 @@ public class EventRepo {
 		rootNode.put("shortDescription", event.getShortDescription());
 		rootNode.put("available", event.isAvailable());
 		rootNode.put("img", event.getImg());
+		rootNode.put("imgMin", event.getImgMin());
 		return rootNode;
 	}
 

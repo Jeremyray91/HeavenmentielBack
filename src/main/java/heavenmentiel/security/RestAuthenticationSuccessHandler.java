@@ -22,6 +22,6 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		LOGGER.info("Authentication was successful");
-		response.sendRedirect(response.encodeRedirectURL("/heavenmentiel/test"));
+		response.sendRedirect(response.encodeRedirectURL("/heavenmentiel/api/events"));
 	}
 }

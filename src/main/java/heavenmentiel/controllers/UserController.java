@@ -20,4 +20,10 @@ public class UserController {
 	@Autowired
 	UserRepository userRepo;
 	
+	@RequestMapping(value="", method= RequestMethod.POST)
+	public void test()
+    {
+        userRepo.add(passwordEncoder.encode("test"));
+    }
+	
 }

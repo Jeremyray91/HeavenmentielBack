@@ -1,5 +1,7 @@
 package heavenmentiel.repositories;
 
+import java.util.Date;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -7,6 +9,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import heavenmentiel.enums.RoleEnum;
 import heavenmentiel.models.User;
 
 @Repository
@@ -42,4 +45,19 @@ public class UserRepository {
 	public void create(User user) {
 		em.persist(user);
 	}
+	
+	public void add(String mdp) {
+        User user = new User();
+        user.setAdress("bl");
+        user.setCity("blbl");
+        user.setDateNaissance(new Date());
+        user.setFirstname("blbl");
+        user.setLastname("bl");
+        user.setTel(6544684);
+        user.setZipCode(65468);
+        user.setRole(RoleEnum.ADMIN);
+        user.setMail("test");
+        user.setPwd(mdp);
+        em.persist(user);
+    }
 }

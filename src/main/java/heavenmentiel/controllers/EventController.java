@@ -61,6 +61,11 @@ public class EventController {
 		return evs.getAllByDate();
 	}
 	
+	@RequestMapping(value ="/eventsLastFiveAdd", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public JsonNode getLastFiveAdd() {
+		return evs.getLastFiveAdd();
+	}
+	
 	@RequestMapping(value = "/events", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public String createEvent(@RequestBody Event event) {
 		return evs.createEvent(event);

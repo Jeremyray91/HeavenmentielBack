@@ -20,26 +20,26 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userId")
 	private Long id;
-	@NotBlank
+	//@NotBlank
 	private String firstName;
-	@NotBlank
+	//@NotBlank
 	private String lastName;
-	@NotNull
+	//@NotNull
 	private Date birthDay;
-	@NotBlank
+	//@NotBlank
 	private String adress;
-	@NotNull
+	//@NotNull
 	private Integer zipCode;
-	@NotBlank
+	//@NotBlank
 	private String city;
-	@NotBlank
+	//@NotBlank
 	private String mail;
-	@NotNull
+	//@NotNull
 	private Integer tel;
-	@NotBlank
+	//@NotBlank
 	private String pwd;
 	@Enumerated(EnumType.STRING)
-	@NotBlank
+	//@NotBlank
 	private RoleEnum role;
 
 	public User() {
