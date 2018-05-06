@@ -1,7 +1,5 @@
 package heavenmentiel.repositories;
 
-import java.util.Date;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -21,6 +19,8 @@ public class UserRepository {
 	@PersistenceContext
 	EntityManager em;
 	
+	@Autowired
+	PasswordEncoder passwordEncoder;	
 	
 	/**
 	 * @author Barbara
@@ -45,6 +45,7 @@ public class UserRepository {
 	 */
 	
 	public void create(User user) {
+		user.setPwd(passwordEncoder.encode(user.getPwd()));
 		em.persist(user);
 	}
 

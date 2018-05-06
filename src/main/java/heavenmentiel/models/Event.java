@@ -1,6 +1,7 @@
 package heavenmentiel.models;
 
 import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -9,8 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotBlank;
+
 import heavenmentiel.enums.TypeEvent;
 
 @Entity
@@ -25,19 +27,19 @@ public class Event {
 	@NotBlank
 	private String place;
 	@Enumerated(EnumType.STRING)
-	@NotNull
+	//@NotNull
 	private TypeEvent type;
-	@NotNull
+	//@NotNull
 	private Date dateEvent;
-	@NotNull
+	//@NotNull
 	private Float price;
-	@NotNull
+	//@NotNull
 	private Integer stock;
 	@NotBlank
 	private String description;
 	@NotBlank
 	private String shortDescription;
-	@NotNull
+	//@NotNull
 	private Boolean available;
 	private String img;
 	private String imgMin;
