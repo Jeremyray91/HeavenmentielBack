@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.hibernate.annotations.common.reflection.java.generics.TypeEnvironmentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -49,6 +50,11 @@ public class EventController {
 			e.printStackTrace();
 		}
 		return evs.getMultiCriteria(name, dateMin, dateMax, place, types, pricemin, pricemax);
+	}
+	
+	@RequestMapping(value ="/eventsById", method = RequestMethod.GET)
+	public Event getEventById(@RequestParam(value="id") long id) {
+		return evs.getEventById(id);
 	}
 	
 	@RequestMapping(value ="/events", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

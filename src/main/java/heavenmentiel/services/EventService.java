@@ -19,6 +19,11 @@ import heavenmentiel.repositories.EventRepo;
 public class EventService {
 	@Autowired EventRepo evr;
 	
+	public Event getEventById(long id)
+	{
+		return evr.getById(id);
+	}
+	
 	public JsonNode getAll() {
 		return evr.getAll();
 	}
@@ -41,4 +46,5 @@ public class EventService {
 	public JsonNode getTypes() {
 		return evr.getTypes();
 	}
+	
 }

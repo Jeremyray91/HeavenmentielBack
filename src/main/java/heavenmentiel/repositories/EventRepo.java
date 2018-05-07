@@ -65,6 +65,14 @@ public class EventRepo {
 		}
 		return evenements;
 	}
+	
+	public Event getById(long id)
+	{
+		TypedQuery<Event> eventQuery = em.createQuery("SELECT evt FROM Event evt WHERE id = :id", Event.class);
+		eventQuery.setParameter("id", id);
+		Event resultEvent = eventQuery.getSingleResult();
+		return resultEvent;
+	}
 
 	public JsonNode getMultiCriteria(String name, Date datemin, Date datemax, String place, TypeEvent types,Float pricemin, Float pricemax) {
 

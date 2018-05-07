@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	RestAccessDeniedHandler restAccessDeniedHandler;
 	
 	
-	// Adresse pour faire l'authentification : http://localhost:8080/heavenmentiel/authenticate //
+	// Adresse pour faire l'authentification : http://localhost:8082/heavenmentiel/authenticate //
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
