@@ -18,13 +18,11 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RestAuthenticationSuccessHandler.class);
 
-	@CrossOrigin(origins = "http://localhost:4200")
 	@Override
 	//Redirige vers une url en cas de succés d'authentification
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		LOGGER.info("Authentication was successful");
-		//response.sendRedirect(response.encodeRedirectURL("/heavenmentiel/test"));
 		response.setStatus(HttpServletResponse.SC_ACCEPTED);
 	}
 }

@@ -70,8 +70,7 @@ public class EventController {
 	public String createEvent(@RequestBody Event event) {
 		return evs.createEvent(event);
 	}
-	
-	@CrossOrigin(origins ="http://localhost:4200")
+
 	@RequestMapping(value = "/types", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public JsonNode getTypes() {
 		return evs.getTypes();

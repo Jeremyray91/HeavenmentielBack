@@ -6,13 +6,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import heavenmentiel.models.User;
 import heavenmentiel.repositories.UserRepository;
+import heavenmentiel.services.UserService;
 
 @RestController
-@RequestMapping(value="/api")
+@RequestMapping(value="/login")
 public class UserController {
 
 	@Autowired
@@ -21,6 +23,9 @@ public class UserController {
 	@Autowired
 	UserRepository userRepo;
 	
+	@Autowired
+	UserService userService;
+	
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public void test()
 	{
@@ -28,14 +33,15 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public String success()
+	public User success(@RequestParam(value="username") String mail)
 	{
-		return "success";
+		System.out.println("success");
+		return userRepo.getByMail(mail);
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void create(@RequestBody User user)
 	{
-		userRepo.create(user);
+		userService.createUser(user);
 	}
 }

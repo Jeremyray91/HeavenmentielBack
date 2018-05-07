@@ -13,8 +13,16 @@ public class UserService {
 	
 	@Autowired UserRepository userRepo;
 	
+	@Autowired
+	SecurityService securityService;
+	
 	public void createUser(User user) {
 		userRepo.create(user);
+	}
+	
+	public User getConnectedUser()
+	{
+		return securityService.getConnectedUser();
 	}
 
 }
