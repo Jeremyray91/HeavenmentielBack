@@ -11,7 +11,9 @@ import javax.persistence.SequenceGenerator;
 @Entity
 public class AchatsEvents {
 	
-	@Id	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "achatseventsId") int id;
+	@Id	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "achatseventsId") 
+	Integer id;
+	
 	@ManyToOne	Event event;
 	@ManyToOne	Commande commande;
 	

@@ -16,21 +16,12 @@ import heavenmentiel.services.UserService;
 @RestController
 @RequestMapping(value="/login")
 public class UserController {
-
-	@Autowired
-	PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	UserRepository userRepo;
 	
 	@Autowired
 	UserService userService;
-	
-	@RequestMapping(value="", method=RequestMethod.POST)
-	public void test()
-	{
-		userRepo.add(passwordEncoder.encode("test"));
-	}
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public User success(@RequestParam(value="username") String mail)

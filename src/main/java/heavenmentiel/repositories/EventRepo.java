@@ -1,6 +1,7 @@
 package heavenmentiel.repositories;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.Criteria;
+import org.hibernate.mapping.Array;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -66,7 +69,7 @@ public class EventRepo {
 		return evenements;
 	}
 
-	public JsonNode getMultiCriteria(String name, Date datemin, Date datemax, String place, TypeEvent types,Float pricemin, Float pricemax) {
+	public JsonNode getMultiCriteria(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax) {
 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Event> q = cb.createQuery(Event.class);
@@ -77,7 +80,7 @@ public class EventRepo {
 		ParameterExpression<Date> paramDateMin = cb.parameter(Date.class);
 		ParameterExpression<Date> paramDateMax = cb.parameter(Date.class);
 		ParameterExpression<String> paramPlace = cb.parameter(String.class);
-		ParameterExpression<TypeEvent> paramType = cb.parameter(TypeEvent.class);
+		ParameterExpression<List> paramTypes = cb.parameter(List.class);
 		ParameterExpression<Float> paramPriceMin = cb.parameter(Float.class);
 		ParameterExpression<Float> paramPriceMax = cb.parameter(Float.class);
 		
@@ -101,10 +104,6 @@ public class EventRepo {
 			criteres.add(cb.like(c.get("place"), paramPlace));
 			parametres.add(new Object[] {paramPlace,"%"+place+"%"});
 		}
-		if(types!=null) {
-			criteres.add(cb.equal(c.get("type"), paramType));
-			parametres.add(new Object[] {paramType,types});
-		}
 		if(pricemin!=null) {
 			criteres.add(cb.greaterThanOrEqualTo(c.get("price"), paramPriceMin));
 			parametres.add(new Object[] {paramPriceMin,pricemin});
@@ -113,10 +112,19 @@ public class EventRepo {
 			criteres.add(cb.lessThanOrEqualTo(c.get("price"), paramPriceMax));
 			parametres.add(new Object[] {paramPriceMax,pricemax});
 		}
+
+		if(types!=null) {
+			ArrayList<TypeEvent> typesEventEnum = new ArrayList<TypeEvent>();
+			for(String t : types) {
+				typesEventEnum.add(TypeEvent.valueOf(t));
+			}
+			criteres.add(c.get("type").in(paramTypes));
+			parametres.add(new Object[] {paramTypes,typesEventEnum});
+		}
 		
 		criteresPredicate = cb.and(criteres.toArray(new Predicate[criteres.size()]));
-		
 		q = q.select(c).where(criteresPredicate);
+		
 		query = em.createQuery(q);
 		for(Object [] params : parametres) {
 			query.setParameter((ParameterExpression<Object>)params[0],  params[1]);
@@ -135,7 +143,7 @@ public class EventRepo {
 	public JsonNode getTypes() {
 		/*
 		 * TO DO : Sécurity : PREPARED QUERY
-		 */
+		*/
 		List<String> types = em.createNativeQuery("select distinct type from event").getResultList();
 		ObjectMapper mapper = new ObjectMapper();
 		ArrayNode typesArray = mapper.createArrayNode();
