@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.hibernate.annotations.common.reflection.java.generics.TypeEnvironmentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,6 +57,11 @@ public class EventController {
 				typesArray = types.split(",");
 			return evs.getMultiCriteria(name, dateMin, dateMax, place, typesArray, pricemin, pricemax);
 		}
+	
+	@RequestMapping(value ="/eventsById", method = RequestMethod.GET)
+	public Event getEventById(@RequestParam(value="id") long id) {
+		return evs.getEventById(id);
+	}
 	
 	@RequestMapping(value ="/events", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public JsonNode getAll() {

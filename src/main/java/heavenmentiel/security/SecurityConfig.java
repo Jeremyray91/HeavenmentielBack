@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	RestAccessDeniedHandler restAccessDeniedHandler;
 	
 	
-	// Adresse pour faire l'authentification : http://localhost:8080/heavenmentiel/authenticate //
+	// Adresse pour faire l'authentification : http://localhost:8082/heavenmentiel/authenticate //
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
@@ -79,8 +79,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	CorsConfigurationSource corsConfigurationSource()
 	{
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost:8080"));
-		configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+		configuration.setAllowedMethods(Arrays.asList("HEAD","GET","POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+		configuration.setAllowCredentials(true);
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;

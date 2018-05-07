@@ -46,11 +46,10 @@ public class User {
 
 	}
 
-	public User(Long id, String firstname, String lastname, Date birthDay, String adress, Integer zipCode,
+	public User(String firstName, String lastName, Date birthDay, String adress, Integer zipCode,
 			String city, String mail, Integer tel, String pwd, RoleEnum role) {
-		this.id = id;
-		this.firstName = firstname;
-		this.lastName = lastname;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.birthDay = birthDay;
 		this.adress = adress;
 		this.zipCode = zipCode;
@@ -69,27 +68,27 @@ public class User {
 		this.id = id;
 	}
 
-	public String getFirstname() {
+	public String getFirstName() {
 		return firstName;
 	}
 
-	public void setFirstname(String firstName) {
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	public String getLastname() {
+	public String getLastName() {
 		return lastName;
 	}
 
-	public void setLastname(String lastName) {
+	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
-	public Date getDateNaissance() {
+	public Date getBirthDay() {
 		return birthDay;
 	}
 
-	public void setDateNaissance(Date birthDay) {
+	public void setBirthDay(Date birthDay) {
 		this.birthDay = birthDay;
 	}
 

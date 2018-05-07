@@ -16,7 +16,8 @@ public class UserService {
 	@Autowired
 	SecurityService securityService;
 	
-	public void createUser(User user) {
+	public void createUser(User user)
+	{
 		userRepo.create(user);
 	}
 	
