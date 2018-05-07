@@ -20,7 +20,7 @@ public class UserRepository {
 	EntityManager em;
 	
 	@Autowired
-	PasswordEncoder passwordEncoder;	
+	PasswordEncoder passwordEncoder;
 	
 	/**
 	 * @author Barbara
@@ -45,7 +45,8 @@ public class UserRepository {
 	 */
 	
 	public void create(User user) {
-		user.setPwd(passwordEncoder.encode(user.getPwd()));
+		String pwd = user.getPwd();
+		user.setPwd(passwordEncoder.encode(pwd));
 		em.persist(user);
 	}
 
