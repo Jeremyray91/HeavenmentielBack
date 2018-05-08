@@ -39,6 +39,10 @@ public class EventRepo {
 		return "Ajout éffectué";
 	}
 	
+	public void update(Event event) {
+		em.merge(event);
+	}
+	
 	public JsonNode getAll() {
 		List<Event> events = em.createQuery("from Event", Event.class).getResultList();
 		ObjectMapper mapper = new ObjectMapper();

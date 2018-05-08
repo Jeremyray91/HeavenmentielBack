@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import heavenmentiel.enums.TypeEvent;
 import heavenmentiel.models.Event;
 import heavenmentiel.repositories.EventRepo;
 
@@ -41,6 +40,10 @@ public class EventService {
 	}
 	public String createEvent(Event event) {
 		return evr.createEvent(event);
+	}
+	
+	public void updateEvent(Event event) {
+		evr.update(event);
 	}
 	
 	public JsonNode getTypes() {
