@@ -35,7 +35,7 @@ public class User {
 	//@NotBlank
 	private String mail;
 	//@NotNull
-	private Integer tel;
+	private String tel;
 	//@NotBlank
 	private String pwd;
 	@Enumerated(EnumType.STRING)
@@ -47,7 +47,7 @@ public class User {
 	}
 
 	public User(String firstName, String lastName, Date birthDay, String adress, Integer zipCode,
-			String city, String mail, Integer tel, String pwd, RoleEnum role) {
+			String city, String mail, String tel, String pwd, RoleEnum role) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthDay = birthDay;
@@ -124,11 +124,11 @@ public class User {
 		this.mail = mail;
 	}
 
-	public Integer getTel() {
+	public String getTel() {
 		return tel;
 	}
 
-	public void setTel(Integer tel) {
+	public void setTel(String tel) {
 		this.tel = tel;
 	}
 

@@ -21,6 +21,11 @@ public class UserService {
 		userRepo.create(user);
 	}
 	
+	public void updateUser(User user)
+	{
+		userRepo.update(user);
+	}
+	
 	public User getConnectedUser()
 	{
 		return securityService.getConnectedUser();

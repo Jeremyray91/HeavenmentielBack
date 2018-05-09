@@ -49,6 +49,14 @@ public class UserRepository {
 		user.setPwd(passwordEncoder.encode(pwd));
 		em.persist(user);
 	}
+	
+	public void update(User user) {
+		String pwd = user.getPwd();
+		if(pwd != null) {
+			user.setPwd(passwordEncoder.encode(pwd));
+		}
+		em.merge(user);
+	}
 
 	public void add(String mdp) {
 		User user = new User();

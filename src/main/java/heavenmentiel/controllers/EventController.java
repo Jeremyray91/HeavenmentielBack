@@ -78,7 +78,7 @@ public class EventController {
 	}
 	
 	@CrossOrigin
-	@RequestMapping(value="/events", method = RequestMethod.PUT)
+	@RequestMapping(value="/events", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void updateEvent(@RequestBody Event event) {
 		evs.updateEvent(event);
 	}
