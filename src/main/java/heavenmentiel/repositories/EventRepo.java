@@ -1,5 +1,8 @@
 package heavenmentiel.repositories;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,11 +22,15 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import heavenmentiel.enums.TypeEvent;
 import heavenmentiel.models.Event;
@@ -194,6 +201,73 @@ public class EventRepo {
 		return parametres;
 	}
 	
+	public void addImageMin(MultipartFile file) {
+		final Logger logger = LoggerFactory
+				.getLogger(EventRepo.class);
+		
+		String message = "";
+
+			try {
+				byte[] bytes = file.getBytes();
+				
+				// Creating the directory to store file
+				String homePath = System.getProperty("user.home");
+				String projectPath = "Desktop/hvnt/HeavenmentielFront/src/assets/";
+				File dir = new File(homePath + File.separator + projectPath + File.separator +"img_miniature");
+				if (!dir.exists())
+					dir.mkdirs();
+
+				// Create the file on server
+				File serverFile = new File(dir.getAbsolutePath()
+						+ File.separator + file.getOriginalFilename());
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+
+				logger.info("Server File Location="
+						+ serverFile.getAbsolutePath());
+
+				message = message + "You successfully uploaded file= " + file.getOriginalFilename()
+						+ "<br />";
+			} catch (Exception e) {
+				System.out.println("You failed to upload " + file.getOriginalFilename() + " => " + e.getMessage());
+			}
+			System.out.println(message);	
+	}
+	public void addImage(MultipartFile file) {
+		final Logger logger = LoggerFactory
+				.getLogger(EventRepo.class);
+		
+		String message = "";
+			try {
+				byte[] bytes = file.getBytes();
+				
+				// Creating the directory to store file
+				String homePath = System.getProperty("user.home");
+				String projectPath = "Desktop/hvnt/HeavenmentielFront/src/assets/";
+				File dir = new File(homePath + File.separator +projectPath + File.separator +"img");
+				if (!dir.exists())
+					dir.mkdirs();
+
+				// Create the file on server
+				File serverFile = new File(dir.getAbsolutePath()
+						+ File.separator + file.getOriginalFilename());
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+
+				logger.info("Server File Location="
+						+ serverFile.getAbsolutePath());
+
+				message = message + "You successfully uploaded file= " + file.getOriginalFilename()
+						+ "<br />";
+			} catch (Exception e) {
+				System.out.println("You failed to upload " + file.getOriginalFilename() + " => " + e.getMessage());
+			}
+			System.out.println(message);	
+	}
 	
 	
 	public JsonNode getTypes() {

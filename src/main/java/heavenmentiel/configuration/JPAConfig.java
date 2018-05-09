@@ -3,8 +3,10 @@ package heavenmentiel.configuration;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.MultipartConfigElement;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -16,6 +18,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
 @EnableTransactionManagement
@@ -59,5 +62,19 @@ public class JPAConfig {
 		properties.setProperty("hibernate.format_sql", env.getRequiredProperty("hibernate.format_sql"));
 		properties.setProperty("hibernate.use_second_level_cache", env.getRequiredProperty("hibernate.use_second_level_cache"));
 		return properties;
+	}
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver commonsMultipartResolver(){
+		CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+	    commonsMultipartResolver.setDefaultEncoding("utf-8");
+	    commonsMultipartResolver.setMaxUploadSize(50000000);
+	    return commonsMultipartResolver;
+	}
+	@Bean
+	public MultipartConfigElement multipartConfigElement(){
+	    MultipartConfigFactory multipartConfigFactory = new MultipartConfigFactory();
+	    multipartConfigFactory.setMaxFileSize("10MB");
+	    multipartConfigFactory.setMaxRequestSize("50MB");
+	    return multipartConfigFactory.createMultipartConfig();
 	}
 }

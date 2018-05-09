@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -71,6 +72,12 @@ public class EventService {
 	
 	public JsonNode getTypes() {
 		return evr.getTypes();
+	}
+	public void addImageMin(MultipartFile file) {
+		evr.addImageMin(file);
+	}
+	public void addImage(MultipartFile file) {
+		evr.addImage(file);
 	}
 	
 	public JsonNode toJsonEvent(Event event) {
