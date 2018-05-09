@@ -46,6 +46,10 @@ public class EventService {
 		evr.update(event);
 	}
 	
+	public void deleteEvent(long id) {
+		evr.delete(id);
+	}
+	
 	public JsonNode getTypes() {
 		return evr.getTypes();
 	}

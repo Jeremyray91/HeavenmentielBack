@@ -43,6 +43,11 @@ public class EventRepo {
 		em.merge(event);
 	}
 	
+	public void delete(long id) {
+		Event event = em.find(Event.class, id);
+		em.remove(event);
+	}
+	
 	public JsonNode getAll() {
 		List<Event> events = em.createQuery("from Event", Event.class).getResultList();
 		ObjectMapper mapper = new ObjectMapper();
