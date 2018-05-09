@@ -1,7 +1,6 @@
 package heavenmentiel.repositories;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -14,8 +13,9 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.Criteria;
-import org.hibernate.mapping.Array;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,12 +27,15 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import heavenmentiel.enums.TypeEvent;
 import heavenmentiel.models.Event;
+import heavenmentiel.services.EventService;
 
 @Repository
 @Transactional
 @CrossOrigin(origins = "http://localhost:4200")
 public class EventRepo {
 	@PersistenceContext	EntityManager em;
+	@Autowired	EventService evs;
+	@Autowired protected Environment env;
 	
 	public String createEvent(Event event) {
 		em.persist(event);
@@ -53,7 +56,7 @@ public class EventRepo {
 		ObjectMapper mapper = new ObjectMapper();
 		ArrayNode evenements = mapper.createArrayNode();
 		for (Event event : events) {
-			evenements.add(toJsonEvent(event));
+			evenements.add(evs.toJsonEvent(event));
 		}
 		return evenements;
 	}
@@ -63,7 +66,7 @@ public class EventRepo {
 		ObjectMapper mapper = new ObjectMapper();
 		ArrayNode evenements = mapper.createArrayNode();
 		for (Event event : events) {
-			evenements.add(toJsonEvent(event));
+			evenements.add(evs.toJsonEvent(event));
 		}
 		return evenements;
 	}
@@ -73,7 +76,7 @@ public class EventRepo {
 		ObjectMapper mapper = new ObjectMapper();
 		ArrayNode evenements = mapper.createArrayNode();
 		for (Event event : events) {
-			evenements.add(toJsonEvent(event));
+			evenements.add(evs.toJsonEvent(event));
 		}
 		return evenements;
 	}
@@ -86,75 +89,111 @@ public class EventRepo {
 		return resultEvent;
 	}
 
-	public JsonNode getMultiCriteria(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax) {
+	public List<Event> getMultiCriteria(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax, Integer page) {
 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Event> q = cb.createQuery(Event.class);
 		Root<Event> c = q.from(Event.class);
 		TypedQuery<Event> query = em.createQuery(q);
-
-		ParameterExpression<String> paramName = cb.parameter(String.class);
-		ParameterExpression<Date> paramDateMin = cb.parameter(Date.class);
-		ParameterExpression<Date> paramDateMax = cb.parameter(Date.class);
-		ParameterExpression<String> paramPlace = cb.parameter(String.class);
-		ParameterExpression<List> paramTypes = cb.parameter(List.class);
-		ParameterExpression<Float> paramPriceMin = cb.parameter(Float.class);
-		ParameterExpression<Float> paramPriceMax = cb.parameter(Float.class);
+		
+		q = q.select(c).where(getMulticriteriaPredicate(name, datemin, datemax, place, types, pricemin, pricemax));
+		query = em.createQuery(q);
+		for(Object [] param : getMultiCriteriaParameters(name, datemin, datemax, place, types, pricemin, pricemax)) {
+			query.setParameter((String) param[0],param[1]);
+		}
+		
+		List<Event> events;
+		Integer pagination = Integer.parseInt(env.getRequiredProperty("EventPagination"));
+		if(page!=null)
+			events = query.setFirstResult(pagination*page-pagination).setMaxResults(pagination*page-1).getResultList();
+		else
+			events = query.setFirstResult(1).setMaxResults(pagination).getResultList();
+		return events;
+	}
+	
+	public long getMultiCriteriaCount(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+		cq.select(cb.count(cq.from(Event.class))).where(getMulticriteriaPredicate(name, datemin, datemax, place, types, pricemin, pricemax));
+		TypedQuery<Long> q = em.createQuery(cq);
+		
+		for(Object[] param : getMultiCriteriaParameters(name, datemin, datemax, place, types, pricemin, pricemax)) {
+			q.setParameter((String) param[0],param[1]);
+		}
+		return q.getSingleResult();
+	}
+	
+	
+	public Predicate getMulticriteriaPredicate(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Event> q = cb.createQuery(Event.class);
+		Root<Event> c = q.from(Event.class);
+		TypedQuery<Event> query = em.createQuery(q);
 		
 		List<Predicate> criteres = new ArrayList<Predicate>();
 		Predicate criteresPredicate;
-		List<Object[]> parametres = new ArrayList<Object[]>();
 		
 		if(name!=null) {
-			criteres.add(cb.like(c.get("name"), paramName));
-			parametres.add(new Object[] {paramName,"%"+name+"%"});
+			criteres.add(cb.like(c.get("name"), cb.parameter(String.class,"name")));
 		}
 		if(datemin!=null) {
-			criteres.add(cb.greaterThanOrEqualTo(c.get("dateEvent"), paramDateMin));
-			parametres.add(new Object[] {paramDateMin,datemin});
+			criteres.add(cb.greaterThanOrEqualTo(c.get("dateEvent"), cb.parameter(Date.class,"dateMin")));
 		}
 		if(datemax!=null) {
-			criteres.add(cb.lessThanOrEqualTo(c.get("dateEvent"), paramDateMax));
-			parametres.add(new Object[] {paramDateMax,datemax});
+			criteres.add(cb.lessThanOrEqualTo(c.get("dateEvent"), cb.parameter(Date.class,"dateMax")));
 		}
 		if(place!=null) {
-			criteres.add(cb.like(c.get("place"), paramPlace));
-			parametres.add(new Object[] {paramPlace,"%"+place+"%"});
+			criteres.add(cb.like(c.get("place"), cb.parameter(String.class,"place")));
 		}
 		if(pricemin!=null) {
-			criteres.add(cb.greaterThanOrEqualTo(c.get("price"), paramPriceMin));
-			parametres.add(new Object[] {paramPriceMin,pricemin});
+			criteres.add(cb.greaterThanOrEqualTo(c.get("price"), cb.parameter(Float.class,"priceMin")));
 		}
 		if(pricemax!=null) {
-			criteres.add(cb.lessThanOrEqualTo(c.get("price"), paramPriceMax));
-			parametres.add(new Object[] {paramPriceMax,pricemax});
+			criteres.add(cb.lessThanOrEqualTo(c.get("price"), cb.parameter(Float.class,"priceMax")));
 		}
-
 		if(types!=null) {
 			ArrayList<TypeEvent> typesEventEnum = new ArrayList<TypeEvent>();
 			for(String t : types) {
 				typesEventEnum.add(TypeEvent.valueOf(t));
 			}
-			criteres.add(c.get("type").in(paramTypes));
-			parametres.add(new Object[] {paramTypes,typesEventEnum});
+			criteres.add(c.get("type").in(cb.parameter(List.class,"types")));
 		}
-		
 		criteresPredicate = cb.and(criteres.toArray(new Predicate[criteres.size()]));
-		q = q.select(c).where(criteresPredicate);
 		
-		query = em.createQuery(q);
-		for(Object [] params : parametres) {
-			query.setParameter((ParameterExpression<Object>)params[0],  params[1]);
-		}
-		List<Event> events = query.getResultList();
-		
-		ObjectMapper mapper = new ObjectMapper();
-		ArrayNode evenements = mapper.createArrayNode();
-		for (Event event : events) {
-			evenements.add(toJsonEvent(event));
-		}
-		return evenements;
+		return criteresPredicate;
 	}
+	
+	public List<Object[]> getMultiCriteriaParameters(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax) {
+		
+		List<Object[]> parametres = new ArrayList<Object[]>();
+		if(name!=null) {
+			parametres.add(new Object[] {"name","%"+name+"%"});
+		}
+		if(datemin!=null) {
+			parametres.add(new Object[] {"dateMin",datemin});
+		}
+		if(datemax!=null) {
+			parametres.add(new Object[] {"dateMax",datemax});
+		}
+		if(place!=null) {
+			parametres.add(new Object[] {"place","%"+place+"%"});
+		}
+		if(pricemin!=null) {
+			parametres.add(new Object[] {"priceMin",pricemin});
+		}
+		if(pricemax!=null) {
+			parametres.add(new Object[] {"priceMax",pricemax});
+		}
+		if(types!=null) {
+			ArrayList<TypeEvent> typesEventEnum = new ArrayList<TypeEvent>();
+			for(String t : types) {
+				typesEventEnum.add(TypeEvent.valueOf(t));
+			}
+			parametres.add(new Object[] {"types",typesEventEnum});
+		}
+		return parametres;
+	}
+	
 	
 	
 	public JsonNode getTypes() {
@@ -170,22 +209,5 @@ public class EventRepo {
 		return typesArray;
 	}
 
-	public JsonNode toJsonEvent(Event event) {
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectNode rootNode = mapper.createObjectNode();
-		rootNode.put("id", event.getId());
-		rootNode.put("name", event.getName());
-		rootNode.put("place", event.getPlace());
-		rootNode.put("type", event.getType().toString());
-		rootNode.put("date", event.getDateEvent().toString());
-		rootNode.put("price", event.getPrice());
-		rootNode.put("stock", event.getStock());
-		rootNode.put("description", event.getDescription());
-		rootNode.put("shortDescription", event.getShortDescription());
-		rootNode.put("available", event.isAvailable());
-		rootNode.put("img", event.getImg());
-		rootNode.put("imgMin", event.getImgMin());
-		return rootNode;
-	}
 
 }

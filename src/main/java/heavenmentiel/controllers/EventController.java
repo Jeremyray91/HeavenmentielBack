@@ -4,8 +4,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import heavenmentiel.models.Event;
 import heavenmentiel.services.EventService;
@@ -24,17 +30,21 @@ import heavenmentiel.services.EventService;
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:4200")
 public class EventController {
-	@Autowired
-	EventService evs;
-
+	@Autowired EventService evs;
+	@Autowired protected Environment env;
+	
 	@RequestMapping(value = "/events/multicriteria", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public JsonNode getMultiCriteria(@RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "datemin", required = false) String datemin,
-			@RequestParam(value = "datemax", required = false) String datemax,
-			@RequestParam(value = "place", required = false) String place,
-			@RequestParam(value = "types", required = false) String types,
-			@RequestParam(value = "pricemin", required = false) Float pricemin,
-			@RequestParam(value = "pricemax", required = false) Float pricemax) {
+	public JsonNode getMultiCriteria(
+				@RequestParam(value = "name", required = false) String name,
+				@RequestParam(value = "datemin", required = false) String datemin,
+				@RequestParam(value = "datemax", required = false) String datemax,
+				@RequestParam(value = "place", required = false) String place,
+				@RequestParam(value = "types", required = false) String types,
+				@RequestParam(value = "pricemin", required = false) Float pricemin,
+				@RequestParam(value = "pricemax", required = false) Float pricemax,
+				@RequestParam(value = "page", required = false) Integer page
+	){
+		
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 		Date dateMin = null;
@@ -50,7 +60,17 @@ public class EventController {
 		String[] typesArray = null;
 		if (types != null)
 			typesArray = types.split(",");
-		return evs.getMultiCriteria(name, dateMin, dateMax, place, typesArray, pricemin, pricemax);
+
+		List<Event> events = evs.getMultiCriteria(name, dateMin, dateMax, place, typesArray, pricemin, pricemax, page);
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode rootNode = mapper.createObjectNode();
+		ArrayNode evenements = rootNode.putArray("events");
+		for (Event event : events) {
+			evenements.add(evs.toJsonEvent(event));
+		}
+		
+		rootNode.put("pages", evs.getMulticriteriaCount(name, dateMin, dateMax, place, typesArray, pricemin, pricemax)/(Integer) Integer.parseInt(env.getRequiredProperty("EventPagination")));
+		return rootNode;
 	}
 
 	@RequestMapping(value = "/eventsById", method = RequestMethod.GET)
