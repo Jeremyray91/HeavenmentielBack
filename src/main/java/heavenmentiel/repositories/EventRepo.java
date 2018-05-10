@@ -211,9 +211,9 @@ public class EventRepo {
 				byte[] bytes = file.getBytes();
 				
 				// Creating the directory to store file
-				String homePath = System.getProperty("user.home");
-				String projectPath = "Desktop/hvnt/HeavenmentielFront/src/assets/";
-				File dir = new File(homePath + File.separator + projectPath + File.separator +"img_miniature");
+				//String homePath = System.getProperty("user.home");
+				String projectPath = env.getProperty("frontProjectPath")+"src" + File.separator + "assets";
+				File dir = new File(projectPath + File.separator +"img_miniature");
 				if (!dir.exists())
 					dir.mkdirs();
 
@@ -228,8 +228,7 @@ public class EventRepo {
 				logger.info("Server File Location="
 						+ serverFile.getAbsolutePath());
 
-				message = message + "You successfully uploaded file= " + file.getOriginalFilename()
-						+ "<br />";
+				message = message + "You successfully uploaded file= " + file.getOriginalFilename();
 			} catch (Exception e) {
 				System.out.println("You failed to upload " + file.getOriginalFilename() + " => " + e.getMessage());
 			}
@@ -244,9 +243,8 @@ public class EventRepo {
 				byte[] bytes = file.getBytes();
 				
 				// Creating the directory to store file
-				String homePath = System.getProperty("user.home");
-				String projectPath = "Desktop/hvnt/HeavenmentielFront/src/assets/";
-				File dir = new File(homePath + File.separator +projectPath + File.separator +"img");
+				String projectPath = env.getProperty("frontProjectPath")+"src" + File.separator + "assets";
+				File dir = new File(projectPath + File.separator +"img_carousel");
 				if (!dir.exists())
 					dir.mkdirs();
 
@@ -261,8 +259,7 @@ public class EventRepo {
 				logger.info("Server File Location="
 						+ serverFile.getAbsolutePath());
 
-				message = message + "You successfully uploaded file= " + file.getOriginalFilename()
-						+ "<br />";
+				message = message + "You successfully uploaded file= " + file.getOriginalFilename();
 			} catch (Exception e) {
 				System.out.println("You failed to upload " + file.getOriginalFilename() + " => " + e.getMessage());
 			}
