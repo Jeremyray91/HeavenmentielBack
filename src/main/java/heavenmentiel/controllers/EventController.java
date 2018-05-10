@@ -72,9 +72,10 @@ public class EventController {
 		for (Event event : events) {
 			evenements.add(evs.toJsonEvent(event));
 		}
-		
-		rootNode.put("pages", evs.getMulticriteriaCount(name, dateMin, dateMax, place, typesArray, pricemin, pricemax)/(Integer) Integer.parseInt(env.getRequiredProperty("EventPagination")));
+		Long count = evs.getMulticriteriaCount(name, dateMin, dateMax, place, typesArray, pricemin, pricemax);
+		rootNode.put("pages",evs.getMulticriteriaNbPages(count));
 		return rootNode;
+		
 	}
 
 	@RequestMapping(value = "/eventsById", method = RequestMethod.GET)

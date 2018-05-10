@@ -14,6 +14,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,10 +30,11 @@ import heavenmentiel.repositories.EventRepo;
 
 @Service
 @Transactional
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin("http://localhost:4200")
 public class EventService {
 	@Autowired EventRepo evr;
 	@PersistenceContext	EntityManager em;
+	@Autowired protected Environment env;
 	
 	public Event getEventById(long id)
 	{
@@ -58,6 +60,16 @@ public class EventService {
 	public long getMulticriteriaCount(String name, Date datemin, Date datemax, String place, String[] types, Float pricemin, Float pricemax) {
 		return evr.getMultiCriteriaCount(name, datemin, datemax, place, types, pricemin, pricemax);
 	}
+	
+	public Long getMulticriteriaNbPages(Long count) {
+		Integer pagination = Integer.parseInt(env.getRequiredProperty("EventPagination"));
+		Long nbPages = count/pagination;
+		if(count%pagination==0)
+			return  nbPages;
+		else
+			return nbPages+1;
+	}
+	
 	public String createEvent(Event event) {
 		return evr.createEvent(event);
 	}

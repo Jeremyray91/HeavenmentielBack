@@ -38,7 +38,7 @@ import heavenmentiel.services.EventService;
 
 @Repository
 @Transactional
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 public class EventRepo {
 	@PersistenceContext	EntityManager em;
 	@Autowired	EventService evs;
@@ -114,7 +114,7 @@ public class EventRepo {
 		if(page!=null)
 			events = query.setFirstResult(pagination*page-pagination).setMaxResults(pagination*page-1).getResultList();
 		else
-			events = query.setFirstResult(1).setMaxResults(pagination).getResultList();
+			events = query.setFirstResult(0).setMaxResults(pagination).getResultList();
 		return events;
 	}
 	
