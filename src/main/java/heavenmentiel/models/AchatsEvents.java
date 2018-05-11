@@ -18,5 +18,37 @@ public class AchatsEvents {
 	@ManyToOne	Commande commande;
 	
 	int qte;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
+	public Commande getCommande() {
+		return commande;
+	}
+
+	public void setCommande(Commande commande) {
+		this.commande = commande;
+	}
+
+	public int getQte() {
+		return qte;
+	}
+
+	public void setQte(int qte) {
+		this.qte = qte;
+	}
 	
 }

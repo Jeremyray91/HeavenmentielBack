@@ -1,6 +1,7 @@
 package heavenmentiel.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -41,6 +43,9 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	//@NotBlank
 	private RoleEnum role;
+	
+	@OneToMany
+	private List<Commande> commands;
 
 	public User() {
 
@@ -146,6 +151,14 @@ public class User {
 
 	public void setRole(RoleEnum role) {
 		this.role = role;
+	}
+	
+	public List<Commande> getCommands() {
+		return commands;
+	}
+
+	public void setCommands(List<Commande> commands) {
+		this.commands = commands;
 	}
 
 }
