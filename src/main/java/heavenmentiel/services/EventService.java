@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import heavenmentiel.enums.TypeEvent;
 import heavenmentiel.models.Event;
 import heavenmentiel.repositories.EventRepo;
 
@@ -70,8 +69,8 @@ public class EventService {
 			return nbPages+1;
 	}
 	
-	public String createEvent(Event event) {
-		return evr.createEvent(event);
+	public void createEvent(Event event) {
+		 evr.createEvent(event);
 	}
 	
 	public void updateEvent(Event event) {

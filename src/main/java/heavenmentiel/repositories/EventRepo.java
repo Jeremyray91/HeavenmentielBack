@@ -38,15 +38,14 @@ import heavenmentiel.services.EventService;
 
 @Repository
 @Transactional
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class EventRepo {
 	@PersistenceContext	EntityManager em;
 	@Autowired	EventService evs;
 	@Autowired protected Environment env;
 	
-	public String createEvent(Event event) {
+	public void createEvent(Event event) {
 		em.persist(event);
-		return "Ajout éffectué";
 	}
 	
 	public void update(Event event) {

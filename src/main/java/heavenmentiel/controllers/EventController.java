@@ -97,10 +97,10 @@ public class EventController {
 	public JsonNode getLastFiveAdd() {
 		return evs.getLastFiveAdd();
 	}
-
+	//@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "/events", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public String createEvent(@RequestBody Event event) {
-		return evs.createEvent(event);
+	public void createEvent(@RequestBody Event event) {
+		 evs.createEvent(event);
 	}
 	
 	@CrossOrigin
