@@ -27,4 +27,38 @@ public class Commande {
 	@OneToMany(mappedBy = "commande")
 	List<AchatsEvents> achatsEvents;
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public List<AchatsEvents> getAchatsEvents() {
+		return achatsEvents;
+	}
+
+	public void setAchatsEvents(List<AchatsEvents> achatsEvents) {
+		this.achatsEvents = achatsEvents;
+	}
+	
+	
+
 }
