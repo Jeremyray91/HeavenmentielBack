@@ -98,7 +98,7 @@ public class EventService {
 		rootNode.put("name", event.getName());
 		rootNode.put("place", event.getPlace());
 		rootNode.put("type", event.getType().toString());
-		rootNode.put("date", event.getDateEvent().toString());
+		rootNode.put("dateEvent", event.getDateEvent().toString());
 		rootNode.put("price", event.getPrice());
 		rootNode.put("stock", event.getStock());
 		rootNode.put("description", event.getDescription());
