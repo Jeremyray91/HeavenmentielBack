@@ -39,10 +39,16 @@ public class UserController {
 	}*/
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
-	public User success(@RequestParam(value="username") String mail)
+	public User getUser(@RequestParam(value="username") String mail)
 	{
 		System.out.println("success");
 		return userRepo.getByMail(mail);
+	}
+	
+	@RequestMapping(value="/check", method=RequestMethod.GET)
+	public boolean checkUser(@RequestParam(value="username") String mail)
+	{
+		return userService.checkUserMail(mail);
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -31,4 +31,8 @@ public class UserService {
 		return securityService.getConnectedUser();
 	}
 
+	public boolean checkUserMail(String mail)
+	{
+		return userRepo.checkMail(mail);
+	}
 }

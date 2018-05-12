@@ -33,8 +33,25 @@ public class UserRepository {
 	public User getByMail(String mail) {
 		TypedQuery<User> userQ = em.createQuery("SELECT u FROM User u WHERE mail = :mail", User.class);
 		userQ.setParameter("mail", mail);
-		User user = userQ.getSingleResult();
-		return user;
+		try
+		{
+			User user = userQ.getSingleResult();
+			return user;
+		}
+		catch (Exception e)
+		{
+			return null;
+		}
+	}
+	
+	public boolean checkMail(String mail)
+	{
+		if(getByMail(mail) != null)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**
