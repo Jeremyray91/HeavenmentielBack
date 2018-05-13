@@ -8,8 +8,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import heavenmentiel.models.AchatsEvents;
 import heavenmentiel.models.Commande;
+import heavenmentiel.models.Event;
 import heavenmentiel.repositories.CommandeRepo;
+import heavenmentiel.repositories.UserRepository;
 
 @Service
 @Transactional
@@ -17,6 +25,8 @@ import heavenmentiel.repositories.CommandeRepo;
 public class CommandeService {
 	@Autowired CommandeRepo commandRepo;
 	@Autowired EventService evs;
+	@Autowired AchatsEventsService achatsService;
+	@Autowired UserRepository userRepo;
 	
 	public Commande create(Commande commande) {
 		return commandRepo.create(commande);
@@ -24,6 +34,19 @@ public class CommandeService {
 	
 	public List<Commande> getMulticriteria(String nom, String prenom, Long idClient, Date datemin, Date datemax,Integer page){
 		return commandRepo.getMulticriteria(nom, prenom, idClient, datemin, datemax,page);
+	}
+	
+	public JsonNode toJson(Commande cmd) {
+			ObjectMapper mapper = new ObjectMapper();
+			ObjectNode rootNode = mapper.createObjectNode();
+			rootNode.put("id", cmd.getId());
+			rootNode.put("date", cmd.getDate().toString());
+			rootNode.putPOJO("user",userRepo.toJsonCmd(cmd.getUser()));
+			ArrayNode events = rootNode.putArray("achatsEvents");
+			for(AchatsEvents achat : cmd.getEvents()) {
+				events.add(achatsService.toJson(achat));
+			}
+			return rootNode;
 	}
 	
 	

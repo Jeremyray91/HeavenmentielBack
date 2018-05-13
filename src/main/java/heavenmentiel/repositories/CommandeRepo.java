@@ -61,11 +61,11 @@ public class CommandeRepo {
 			params.add(new Object [] {"idClient",idClient});
 		}
 		if(datemin!=null) {
-			criteres.add(cb.greaterThanOrEqualTo(join.get("date"), cb.parameter(Date.class,"datemin")));
+			criteres.add(cb.greaterThanOrEqualTo(commande.get("date"), cb.parameter(Date.class,"datemin")));
 			params.add(new Object [] {"datemin",datemin});
 		}
 		if(datemax!=null) {
-			criteres.add(cb.lessThanOrEqualTo(join.get("date"), cb.parameter(Date.class,"datemax")));
+			criteres.add(cb.lessThanOrEqualTo(commande.get("date"), cb.parameter(Date.class,"datemax")));
 			params.add(new Object [] {"datemax",datemax});
 		}
 		
@@ -75,12 +75,7 @@ public class CommandeRepo {
 			query.setParameter((String) param[0],param[1]);
 		}
 		
-		List<Commande> commands = new ArrayList<Commande>();
-		Integer pagination = Integer.parseInt(env.getRequiredProperty("CommandPagination"));
-		if(page!=null && page!=1)
-			commands = query.setFirstResult(pagination*page-pagination).setMaxResults(pagination*page-1).getResultList();
-		else
-			commands = query.setFirstResult(0).setMaxResults(pagination).getResultList();
+		List<Commande> commands = query.getResultList();
 		return commands;
 	}
 	

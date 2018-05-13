@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import heavenmentiel.models.Commande;
 import heavenmentiel.services.CommandeService;
 import heavenmentiel.services.EventService;
+import heavenmentiel.utils.Utils;
 
 @RestController
 @RequestMapping("/api")
@@ -37,12 +41,23 @@ public class CommandController {
 				@RequestParam(value = "firstname", required = false) String firstname,
 				@RequestParam(value = "lastname", required = false) String lastname,
 				@RequestParam(value = "id", required = false) Long idClient,
-				@RequestParam(value = "datemin", required = false) Date datemin,
-				@RequestParam(value = "datemax", required = false) Date datemax,
+				@RequestParam(value = "datemin", required = false) String datemin,
+				@RequestParam(value = "datemax", required = false) String datemax,
 				@RequestParam(value = "page", required = false) Integer page
 	){
-		List<Commande> commands = commandService.getMulticriteria(firstname, lastname, idClient, datemin, datemax, page);
-		System.out.println(commands.toString());
-		return null;
+
+		Date dateMin = null;
+		Date dateMax = null;
+		if (datemin != null)
+			dateMin = Utils.parseDateFrToGb(datemin);
+		if (datemax != null)
+			dateMax = Utils.parseDateFrToGb(datemax);
+		List<Commande> commands = commandService.getMulticriteria(firstname, lastname, idClient, dateMin, dateMax, page);
+		ObjectMapper mapper = new ObjectMapper();
+		ArrayNode jsonCommands = mapper.createArrayNode();
+		for(Commande cmd : commands) {
+			jsonCommands.add(commandService.toJson(cmd));
+		}
+		return jsonCommands;
 	}
 }

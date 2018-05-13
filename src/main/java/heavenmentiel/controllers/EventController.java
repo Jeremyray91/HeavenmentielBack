@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import heavenmentiel.models.Event;
 import heavenmentiel.services.EventService;
+import heavenmentiel.utils.Utils;
 
 @RestController
 @RequestMapping("/api")
@@ -48,19 +49,14 @@ public class EventController {
 				@RequestParam(value = "pricemax", required = false) Float pricemax,
 				@RequestParam(value = "page", required = false) Integer page
 	){
-		
-		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 		Date dateMin = null;
 		Date dateMax = null;
-		try {
-			if (datemin != null)
-				dateMin = formatter.parse(datemin);
-			if (datemax != null)
-				dateMax = formatter.parse(datemax);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+
+		if (datemin != null)
+			dateMin = Utils.parseDateFrToGb(datemin);
+		if (datemax != null)
+			dateMax = Utils.parseDateFrToGb(datemax);
 		String[] typesArray = null;
 		if (types != null)
 			typesArray = types.split(",");

@@ -18,6 +18,7 @@ import heavenmentiel.enums.RoleEnum;
 import heavenmentiel.models.Commande;
 import heavenmentiel.models.Event;
 import heavenmentiel.models.User;
+import heavenmentiel.services.CommandeService;
 
 @Repository
 @Transactional
@@ -28,6 +29,8 @@ public class UserRepository {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	@Autowired
+	CommandeService cmdService;
 	
 	/**
 	 * @author Barbara
@@ -112,13 +115,10 @@ public class UserRepository {
 		rootNode.put("tel", user.getTel());
 		rootNode.put("motDePasse", user.getPwd());
 		rootNode.put("role", user.getRole().toString());
-		ArrayNode commandes = rootNode.putArray("commandes");
-		for(Commande commande : user.getCommands()) {
-			ObjectNode commandeNode = mapper.createObjectNode();
-			commandeNode.put("id", commande.getId());
-			commandeNode.put("date", commande.getDate().toString());
-			commandes.add(commandeNode);
-		}
+//		ArrayNode commandes = rootNode.putArray("commandes");
+//		for(Commande commande : user.getCommands()) {
+//			commandes.add(cmdService.toJson(commande));
+//		}
 		
 		return rootNode;
 	}
