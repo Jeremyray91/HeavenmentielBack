@@ -67,8 +67,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void update(@RequestBody User user)
+	public void update(@RequestBody User user, @RequestParam(value="newPwd") boolean pwdChanged)
 	{
-		userService.updateUser(user);
+		userService.updateUser(user, pwdChanged);
 	}
 }
