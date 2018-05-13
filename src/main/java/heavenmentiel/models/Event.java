@@ -1,18 +1,18 @@
 package heavenmentiel.models;
 
 import java.util.Date;
-
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 import org.hibernate.validator.constraints.NotBlank;
-
 import heavenmentiel.enums.TypeEvent;
 
 @Entity
@@ -43,12 +43,16 @@ public class Event {
 	private Boolean available;
 	private String img;
 	private String imgMin;
+	
+	@OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
+	private Set<AchatsEvents> commandes;
 
 	public Event() {
 	}
 
 	public Event(String name, String place, TypeEvent type, Date dateEvent, Float price,
-			Integer stock, String description, String shortDescription, Boolean available, String img, String imgMin) {
+			Integer stock, String description, String shortDescription, Boolean available, 
+			String img, String imgMin, Set<AchatsEvents> commandes) {
 		this.name = name;
 		this.place = place;
 		this.type = type;
@@ -60,6 +64,7 @@ public class Event {
 		this.available = available;
 		this.img = img;
 		this.imgMin = imgMin;
+		this.commandes = commandes;
 	}
 
 	public Long getId() {
@@ -160,5 +165,13 @@ public class Event {
 
 	public void setImgMin(String imgMin) {
 		this.imgMin = imgMin;
+	}
+
+	public Set<AchatsEvents> getCommandes() {
+		return commandes;
+	}
+
+	public void setCommandes(Set<AchatsEvents> commandes) {
+		this.commandes = commandes;
 	}
 }

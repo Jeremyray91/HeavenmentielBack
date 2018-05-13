@@ -18,6 +18,14 @@ public class AchatsEvents {
 	@ManyToOne	Commande commande;
 	
 	int qte;
+	
+	public AchatsEvents() {
+	}
+	
+	public AchatsEvents(Integer id, Integer id_event, Integer id_commande, int qte) {
+		this.id = id;
+		this.qte = qte;
+	}
 
 	public Integer getId() {
 		return id;

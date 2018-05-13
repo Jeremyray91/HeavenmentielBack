@@ -19,11 +19,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import heavenmentiel.enums.TypeEvent;
+import heavenmentiel.models.AchatsEvents;
 import heavenmentiel.models.Commande;
-import heavenmentiel.models.Event;
 import heavenmentiel.models.User;
-import heavenmentiel.services.EventService;
 
 @Repository
 @Transactional
@@ -31,6 +29,15 @@ import heavenmentiel.services.EventService;
 public class CommandeRepo {
 	@PersistenceContext	EntityManager em;
 	@Autowired protected Environment env;
+	
+	public Commande create(Commande commande) {
+		em.persist(commande);
+		for(AchatsEvents ae : commande.getEvents()) {
+			 //em.persist(ae.getEvent());
+			 em.persist(ae);
+		}
+		return commande;
+	}
 	
 	public List<Commande> getMulticriteria(String nom, String prenom, Long idClient, Date datemin, Date datemax, Integer page){
 		CriteriaBuilder cb = em.getCriteriaBuilder();

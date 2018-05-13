@@ -9,7 +9,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import heavenmentiel.enums.RoleEnum;
+import heavenmentiel.models.Commande;
+import heavenmentiel.models.Event;
 import heavenmentiel.models.User;
 
 @Repository
@@ -42,6 +49,14 @@ public class UserRepository {
 		{
 			return null;
 		}
+	}
+	
+	public JsonNode getById(long id) {
+		User user = em.find(User.class, id);
+		ObjectMapper mapper = new ObjectMapper();
+		ArrayNode users = mapper.createArrayNode();
+			users.add(toJsonCmd(user));
+		return users;
 	}
 	
 	public boolean checkMail(String mail)
@@ -81,5 +96,30 @@ public class UserRepository {
 		user.setMail("test");
 		user.setPwd(mdp);
 		em.persist(user);
+	}
+	
+	public JsonNode toJsonCmd(User user) {
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode rootNode = mapper.createObjectNode();
+		rootNode.put("id", user.getId());
+		rootNode.put("firstname", user.getFirstName());
+		rootNode.put("lastname", user.getLastName());
+		rootNode.put("birthday", user.getBirthDay().toString());
+		rootNode.put("adresse", user.getAdress());
+		rootNode.put("CodePostal", user.getZipCode());
+		rootNode.put("ville", user.getCity());
+		rootNode.put("mail", user.getMail());
+		rootNode.put("tel", user.getTel());
+		rootNode.put("motDePasse", user.getPwd());
+		rootNode.put("role", user.getRole().toString());
+		ArrayNode commandes = rootNode.putArray("commandes");
+		for(Commande commande : user.getCommands()) {
+			ObjectNode commandeNode = mapper.createObjectNode();
+			commandeNode.put("id", commande.getId());
+			commandeNode.put("date", commande.getDate().toString());
+			commandes.add(commandeNode);
+		}
+		
+		return rootNode;
 	}
 }

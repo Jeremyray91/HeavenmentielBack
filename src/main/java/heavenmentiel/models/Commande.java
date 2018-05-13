@@ -1,9 +1,10 @@
 package heavenmentiel.models;
 
 import java.sql.Date;
-import java.util.List;
-
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,9 +25,19 @@ public class Commande {
 	@ManyToOne
 	User user;
 	
-	@OneToMany(mappedBy = "commande")
-	List<AchatsEvents> achatsEvents;
+	@OneToMany(mappedBy = "commande", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	Set<AchatsEvents> events;
 
+	public Commande() {
+		
+	}
+	
+	public Commande(Date date, User user, Set<AchatsEvents> events) {
+		this.date = date;
+		this.user = user;
+		this.events = events;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -51,12 +62,12 @@ public class Commande {
 		this.user = user;
 	}
 
-	public List<AchatsEvents> getAchatsEvents() {
-		return achatsEvents;
+	public Set<AchatsEvents> getEvents() {
+		return events;
 	}
 
-	public void setAchatsEvents(List<AchatsEvents> achatsEvents) {
-		this.achatsEvents = achatsEvents;
+	public void setAchatsEvents(Set<AchatsEvents> events) {
+		this.events = events;
 	}
 	
 	

@@ -1,7 +1,5 @@
 package heavenmentiel.controllers;
 
-
-
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +26,11 @@ public class CommandController {
 	
 	@Autowired CommandeService commandService;
 	@Autowired protected Environment env;
+	
+	@RequestMapping(value="/commandes", method = RequestMethod.POST)
+	public Commande create(@RequestBody Commande commande) {
+		return commandService.create(commande);
+	}
 	
 	@RequestMapping(value = "/commands/multicriteria", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public JsonNode getMultiCriteria(
