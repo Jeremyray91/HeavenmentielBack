@@ -85,9 +85,9 @@ public class UserRepository {
 		em.persist(user);
 	}
 	
-	public void update(User user) {
+	public void update(User user,boolean pwdChanged) {
 		String pwd = user.getPwd();
-		if(pwd != null) {
+		if(pwdChanged) {
 			user.setPwd(passwordEncoder.encode(pwd));
 		}
 		em.merge(user);

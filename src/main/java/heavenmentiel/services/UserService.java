@@ -28,9 +28,9 @@ public class UserService {
 		userRepo.create(user);
 	}
 	
-	public void updateUser(User user)
+	public void updateUser(User user, boolean pwdChanged)
 	{
-		userRepo.update(user);
+		userRepo.update(user, pwdChanged);
 	}
 	
 	public User getConnectedUser()
