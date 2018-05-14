@@ -1,7 +1,7 @@
 package heavenmentiel.enums;
 
 public enum TypeEvent {
-	CONCERT("Concert"), CINEMA("Cinéma"), SPECTACLE("Spectacle"), SPORT("Sport"), JEUX("Jeux");
+	CONCERT("Concert"), CINEMA("Cinema"), SPECTACLE("Spectacle"), SPORT("Sport"), JEUX("Jeux");
 	
 	private String s;
 	

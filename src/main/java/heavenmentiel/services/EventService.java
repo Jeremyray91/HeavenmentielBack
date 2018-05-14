@@ -52,12 +52,12 @@ public class EventService {
 		return evr.getLastFiveAdd();
 	}
 	
-	public List<Event> getMultiCriteria(String name, Date datemin, Date datemax, String place, String[] types, Float pricemin, Float pricemax, Integer page) {
-		return evr.getMultiCriteria(name, datemin, datemax, place, types, pricemin, pricemax, page);
+	public List<Event> getMultiCriteria(String name, Date datemin, Date datemax, String place, String[] types, Float pricemin, Float pricemax, Integer page, String role) {
+		return evr.getMultiCriteria(name, datemin, datemax, place, types, pricemin, pricemax, page, role);
 	}
 	
-	public long getMulticriteriaCount(String name, Date datemin, Date datemax, String place, String[] types, Float pricemin, Float pricemax) {
-		return evr.getMultiCriteriaCount(name, datemin, datemax, place, types, pricemin, pricemax);
+	public long getMulticriteriaCount(String name, Date datemin, Date datemax, String place, String[] types, Float pricemin, Float pricemax, String role) {
+		return evr.getMultiCriteriaCount(name, datemin, datemax, place, types, pricemin, pricemax, role);
 	}
 	
 	public Long getMulticriteriaNbPages(Long count) {

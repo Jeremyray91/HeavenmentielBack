@@ -52,7 +52,9 @@ public class EventRepo {
 	}
 	
 	public void update(Event event) {
-		em.merge(event);
+		Event e = em.find(Event.class, event.getId());
+		e.setAvailable(event.getAvailable());
+		em.merge(e);
 	}
 	
 	public void delete(long id) {
@@ -98,16 +100,16 @@ public class EventRepo {
 		return resultEvent;
 	}
 
-	public List<Event> getMultiCriteria(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax, Integer page) {
+	public List<Event> getMultiCriteria(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax, Integer page, String role) {
 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Event> q = cb.createQuery(Event.class);
 		Root<Event> c = q.from(Event.class);
 		TypedQuery<Event> query = em.createQuery(q);
 		
-		q = q.select(c).where(getMulticriteriaPredicate(name, datemin, datemax, place, types, pricemin, pricemax));
+		q = q.select(c).where(getMulticriteriaPredicate(name, datemin, datemax, place, types, pricemin, pricemax, role));
 		query = em.createQuery(q);
-		for(Object [] param : getMultiCriteriaParameters(name, datemin, datemax, place, types, pricemin, pricemax)) {
+		for(Object [] param : getMultiCriteriaParameters(name, datemin, datemax, place, types, pricemin, pricemax, role)) {
 			query.setParameter((String) param[0],param[1]);
 		}
 		
@@ -120,20 +122,20 @@ public class EventRepo {
 		return events;
 	}
 	
-	public long getMultiCriteriaCount(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax) {
+	public long getMultiCriteriaCount(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax, String role) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-		cq.select(cb.count(cq.from(Event.class))).where(getMulticriteriaPredicate(name, datemin, datemax, place, types, pricemin, pricemax));
+		cq.select(cb.count(cq.from(Event.class))).where(getMulticriteriaPredicate(name, datemin, datemax, place, types, pricemin, pricemax, role));
 		TypedQuery<Long> q = em.createQuery(cq);
 		
-		for(Object[] param : getMultiCriteriaParameters(name, datemin, datemax, place, types, pricemin, pricemax)) {
+		for(Object[] param : getMultiCriteriaParameters(name, datemin, datemax, place, types, pricemin, pricemax, role)) {
 			q.setParameter((String) param[0],param[1]);
 		}
 		return q.getSingleResult();
 	}
 	
 	
-	public Predicate getMulticriteriaPredicate(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax) {
+	public Predicate getMulticriteriaPredicate(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax, String role) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Event> q = cb.createQuery(Event.class);
 		Root<Event> c = q.from(Event.class);
@@ -167,12 +169,14 @@ public class EventRepo {
 			}
 			criteres.add(c.get("type").in(cb.parameter(List.class,"types")));
 		}
-		criteresPredicate = cb.and(criteres.toArray(new Predicate[criteres.size()]));
+		criteresPredicate = cb.or(criteres.toArray(new Predicate[criteres.size()]));
+		if(role!="ADMIN")
+			criteresPredicate = cb.and(criteresPredicate,cb.equal(c.get("available"), cb.parameter(Boolean.class,"available")));
 		
 		return criteresPredicate;
 	}
 	
-	public List<Object[]> getMultiCriteriaParameters(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax) {
+	public List<Object[]> getMultiCriteriaParameters(String name, Date datemin, Date datemax, String place, String[] types,Float pricemin, Float pricemax, String role) {
 		
 		List<Object[]> parametres = new ArrayList<Object[]>();
 		if(name!=null) {
@@ -199,6 +203,9 @@ public class EventRepo {
 				typesEventEnum.add(TypeEvent.valueOf(t));
 			}
 			parametres.add(new Object[] {"types",typesEventEnum});
+		}
+		if(role!="ADMIN") {
+			parametres.add(new Object[] {"available",true});
 		}
 		return parametres;
 	}

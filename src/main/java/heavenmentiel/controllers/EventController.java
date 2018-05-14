@@ -47,7 +47,8 @@ public class EventController {
 				@RequestParam(value = "types", required = false) String types,
 				@RequestParam(value = "pricemin", required = false) Float pricemin,
 				@RequestParam(value = "pricemax", required = false) Float pricemax,
-				@RequestParam(value = "page", required = false) Integer page
+				@RequestParam(value = "page", required = false) Integer page,
+				@RequestParam(value = "role", required = false) String role
 	){
 
 		Date dateMin = null;
@@ -61,14 +62,14 @@ public class EventController {
 		if (types != null)
 			typesArray = types.split(",");
 
-		List<Event> events = evs.getMultiCriteria(name, dateMin, dateMax, place, typesArray, pricemin, pricemax, page);
+		List<Event> events = evs.getMultiCriteria(name, dateMin, dateMax, place, typesArray, pricemin, pricemax, page, role);
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode rootNode = mapper.createObjectNode();
 		ArrayNode evenements = rootNode.putArray("events");
 		for (Event event : events) {
 			evenements.add(evs.toJsonEvent(event));
 		}
-		Long count = evs.getMulticriteriaCount(name, dateMin, dateMax, place, typesArray, pricemin, pricemax);
+		Long count = evs.getMulticriteriaCount(name, dateMin, dateMax, place, typesArray, pricemin, pricemax, role);
 		rootNode.put("pages",evs.getMulticriteriaNbPages(count));
 		return rootNode;
 		
