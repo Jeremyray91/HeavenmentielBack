@@ -60,4 +60,9 @@ public class CommandController {
 		}
 		return jsonCommands;
 	}
+	
+	@RequestMapping(value = "/commands/getById", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public JsonNode getById(@RequestParam(value = "id", required = false) Integer id){
+		return commandService.toJson(commandService.getById(id));
+	}
 }

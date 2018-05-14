@@ -105,8 +105,8 @@ public class UserRepository {
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode rootNode = mapper.createObjectNode();
 		rootNode.put("id", user.getId());
-		rootNode.put("firstname", user.getFirstName());
-		rootNode.put("lastname", user.getLastName());
+		rootNode.put("firstName", user.getFirstName());
+		rootNode.put("lastName", user.getLastName());
 		rootNode.put("birthday", user.getBirthDay().toString());
 		rootNode.put("adresse", user.getAdress());
 		rootNode.put("CodePostal", user.getZipCode());

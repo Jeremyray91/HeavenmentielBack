@@ -113,8 +113,8 @@ public class EventRepo {
 		
 		List<Event> events = new ArrayList<>();
 		Integer pagination = Integer.parseInt(env.getRequiredProperty("EventPagination"));
-		if(page!=null && page!=1)
-			events = query.setFirstResult(pagination*page-pagination).setMaxResults(pagination).getResultList();
+		if(page!=null && page!=0)
+			events = query.setFirstResult(page).setMaxResults(pagination).getResultList();
 		else
 			events = query.setFirstResult(0).setMaxResults(pagination).getResultList();
 		return events;

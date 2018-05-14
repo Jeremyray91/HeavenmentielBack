@@ -79,31 +79,7 @@ public class CommandeRepo {
 		return commands;
 	}
 	
-	public Object[] getMulticriteriaPredicateParameters(String firstname, String lastname, Integer idClient, Date datemin, Date datemax) {
-//		CriteriaBuilder cb = em.getCriteriaBuilder();
-//		CriteriaQuery<Commande> q = cb.createQuery(Commande.class);
-//		Root<Commande> commande = q.from(Commande.class);
-//		Join<Commande,User> join = commande.join( "user" );
-//		
-//		List<Predicate> criteres = new ArrayList<Predicate>();
-//		Predicate criteresPredicate;
-//		List<Object[]> parametres = new ArrayList<Object[]>();
-//		
-//		if(firstname!=null) {
-//			criteres.add(cb.like(join.get("firstName"), cb.parameter(String.class,"firstname")));
-//			parametres.add(new Object[] {"firstname","%"+firstname+"%"});
-//		}
-//		if(lastname!=null) {
-//			criteres.add(cb.like(join.get("lastName"), cb.parameter(String.class,"lastname")));
-//			parametres.add(new Object[] {"lastname","%"+lastname+"%"});
-//		}
-//		if(idClient!=null) {
-//			criteres.add(cb.equal(join.get("id"), cb.parameter(Integer.class,"idClient")));
-//			parametres.add(new Object[] {"idClient","%"+idClient+"%"});
-//		}
-//
-//		return new Object [] {criteresPredicate,parametres};
-//	}
-		return null;
+	public Commande getById(Integer id) {
+		return em.find(Commande.class, id);
 	}
 }

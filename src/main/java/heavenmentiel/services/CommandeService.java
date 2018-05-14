@@ -36,6 +36,10 @@ public class CommandeService {
 		return commandRepo.getMulticriteria(nom, prenom, idClient, datemin, datemax,page);
 	}
 	
+	public Commande getById(Integer id) {
+		return commandRepo.getById(id);
+	}
+	
 	public JsonNode toJson(Commande cmd) {
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectNode rootNode = mapper.createObjectNode();
