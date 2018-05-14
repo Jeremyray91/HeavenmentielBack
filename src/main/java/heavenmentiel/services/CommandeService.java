@@ -24,9 +24,12 @@ import heavenmentiel.repositories.UserRepository;
 @CrossOrigin("http://localhost:4200")
 public class CommandeService {
 	@Autowired CommandeRepo commandRepo;
-	@Autowired EventService evs;
 	@Autowired AchatsEventsService achatsService;
 	@Autowired UserRepository userRepo;
+	
+	public JsonNode getAll() {
+		return commandRepo.getAll();
+	}
 	
 	public Commande create(Commande commande) {
 		return commandRepo.create(commande);

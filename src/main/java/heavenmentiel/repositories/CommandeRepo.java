@@ -19,9 +19,16 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
 import heavenmentiel.models.AchatsEvents;
 import heavenmentiel.models.Commande;
+import heavenmentiel.models.Event;
 import heavenmentiel.models.User;
+import heavenmentiel.services.CommandeService;
+import heavenmentiel.services.EventService;
 
 @Repository
 @Transactional
@@ -29,14 +36,25 @@ import heavenmentiel.models.User;
 public class CommandeRepo {
 	@PersistenceContext	EntityManager em;
 	@Autowired protected Environment env;
+	@Autowired	CommandeService cmds;
 	
 	public Commande create(Commande commande) {
 		em.persist(commande);
 		for(AchatsEvents ae : commande.getEvents()) {
-			 //em.persist(ae.getEvent());
+			 ae.setCommande(commande);
 			 em.persist(ae);
 		}
 		return commande;
+	}
+	
+	public JsonNode getAll(){
+		List<Commande> commandesQ = em.createQuery("from Commande", Commande.class).getResultList();
+		ObjectMapper mapper = new ObjectMapper();
+		ArrayNode commandes = mapper.createArrayNode();
+		for (Commande commande : commandesQ) {
+			commandes.add(cmds.toJson(commande));
+		}
+		return commandes;
 	}
 	
 	public List<Commande> getMulticriteria(String nom, String prenom, Long idClient, Date datemin, Date datemax, Integer page){
@@ -106,4 +124,9 @@ public class CommandeRepo {
 //	}
 		return null;
 	}
+
+
+
+
+
 }

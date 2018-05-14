@@ -24,9 +24,6 @@ import heavenmentiel.services.UserService;
 @CrossOrigin(origins ="http://localhost:4200")
 @RequestMapping(value="/user")
 public class UserController {
-
-	/*@Autowired
-	PasswordEncoder passwordEncoder;*/
 	
 	@Autowired
 	UserRepository userRepo;
@@ -34,17 +31,9 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	/*@RequestMapping(value="", method=RequestMethod.POST)
-	public void test()
-	{
-		System.out.println("add");
-		userRepo.add(passwordEncoder.encode("test"));
-	}*/
-	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public User getUser(@RequestParam(value="username") String mail)
 	{
-		System.out.println("success");
 		return userRepo.getByMail(mail);
 	}
 	
