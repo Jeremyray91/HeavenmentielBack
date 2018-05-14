@@ -24,7 +24,7 @@ import heavenmentiel.services.EventService;
 import heavenmentiel.utils.Utils;
 
 @RestController
-@RequestMapping("/api/commandes")
+@RequestMapping("/api")
 @CrossOrigin
 public class CommandController {
 	
