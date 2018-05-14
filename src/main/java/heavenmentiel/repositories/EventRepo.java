@@ -174,9 +174,9 @@ public class EventRepo {
 			criteres.add(c.get("type").in(cb.parameter(List.class,"types")));
 		}
 		criteresPredicate = cb.or(criteres.toArray(new Predicate[criteres.size()]));
-		if(role!="ADMIN")
+		if(!role.equals("ADMIN")) {
 			criteresPredicate = cb.and(criteresPredicate,cb.equal(c.get("available"), cb.parameter(Boolean.class,"available")));
-		
+		}
 		return criteresPredicate;
 	}
 	
@@ -208,7 +208,7 @@ public class EventRepo {
 			}
 			parametres.add(new Object[] {"types",typesEventEnum});
 		}
-		if(role!="ADMIN") {
+		if(!role.equals("ADMIN")) {
 			parametres.add(new Object[] {"available",true});
 		}
 		return parametres;
