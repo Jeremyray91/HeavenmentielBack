@@ -25,7 +25,7 @@ public class Commande {
 	@ManyToOne
 	User user;
 	
-	@OneToMany(mappedBy = "commande", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "commande", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	Set<AchatsEvents> events;
 
 	public Commande() {

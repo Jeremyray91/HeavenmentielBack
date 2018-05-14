@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
@@ -11,11 +12,16 @@ import javax.persistence.SequenceGenerator;
 @Entity
 public class AchatsEvents {
 	
-	@Id	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "achatseventsId") 
+	@Id	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "achatseventsId") 
 	Integer id;
 	
-	@ManyToOne	Event event;
-	@ManyToOne	Commande commande;
+	@ManyToOne
+	@JoinColumn(name="event_id")
+	Event event;
+	@ManyToOne
+	@JoinColumn(name="commande_id")
+	Commande commande;
 	
 	int qte;
 	

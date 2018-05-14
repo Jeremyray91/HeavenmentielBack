@@ -44,15 +44,15 @@ public class Event {
 	private String img;
 	private String imgMin;
 	
-	@OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
-	private Set<AchatsEvents> commandes;
+//	@OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
+//	private Set<AchatsEvents> commandes;
 
 	public Event() {
 	}
 
 	public Event(String name, String place, TypeEvent type, Date dateEvent, Float price,
 			Integer stock, String description, String shortDescription, Boolean available, 
-			String img, String imgMin, Set<AchatsEvents> commandes) {
+			String img, String imgMin) {
 		this.name = name;
 		this.place = place;
 		this.type = type;
@@ -64,7 +64,7 @@ public class Event {
 		this.available = available;
 		this.img = img;
 		this.imgMin = imgMin;
-		this.commandes = commandes;
+		//this.commandes = commandes;
 	}
 
 	public Long getId() {
@@ -167,11 +167,11 @@ public class Event {
 		this.imgMin = imgMin;
 	}
 
-	public Set<AchatsEvents> getCommandes() {
-		return commandes;
-	}
-
-	public void setCommandes(Set<AchatsEvents> commandes) {
-		this.commandes = commandes;
-	}
+//	public Set<AchatsEvents> getCommandes() {
+//		return commandes;
+//	}
+//
+//	public void setCommandes(Set<AchatsEvents> commandes) {
+//		this.commandes = commandes;
+//	}
 }
