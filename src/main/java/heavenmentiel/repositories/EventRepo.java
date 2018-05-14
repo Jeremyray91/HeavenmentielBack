@@ -52,6 +52,10 @@ public class EventRepo {
 	}
 	
 	public void update(Event event) {
+		em.merge(event);
+	}
+	
+	public void updateById(Event event) {
 		Event e = em.find(Event.class, event.getId());
 		e.setAvailable(event.getAvailable());
 		em.merge(e);

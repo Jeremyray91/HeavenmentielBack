@@ -107,8 +107,14 @@ public class EventController {
 	}
 	
 	@CrossOrigin
+	@RequestMapping(value="/eventsById", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void updateEventById(@RequestBody Event event) {
+		evs.updateEventById(event);
+	}
+	
+	@CrossOrigin
 	@RequestMapping(value="/events/{id}", method = RequestMethod.DELETE)
-	public void updateEvent(@PathVariable long id) {
+	public void deleteEvent(@PathVariable long id) {
 		evs.deleteEvent(id);
 	}
 

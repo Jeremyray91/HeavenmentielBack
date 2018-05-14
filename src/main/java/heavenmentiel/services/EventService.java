@@ -77,6 +77,10 @@ public class EventService {
 		evr.update(event);
 	}
 	
+	public void updateEventById(Event event) {
+		evr.updateById(event);
+	}
+	
 	public void deleteEvent(long id) {
 		evr.delete(id);
 	}
