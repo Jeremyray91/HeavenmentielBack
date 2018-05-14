@@ -1,6 +1,7 @@
 package heavenmentiel.models;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,17 +26,17 @@ public class Commande {
 	@ManyToOne
 	User user;
 	
-	@OneToMany(mappedBy = "commande", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	Set<AchatsEvents> events;
+	@OneToMany(mappedBy = "commande", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	List<AchatsEvents> achatsEvents;
 
 	public Commande() {
 		
 	}
 	
-	public Commande(Date date, User user, Set<AchatsEvents> events) {
+	public Commande(Date date, User user, List<AchatsEvents> events) {
 		this.date = date;
 		this.user = user;
-		this.events = events;
+		this.achatsEvents = events;
 	}
 	
 	public Integer getId() {
@@ -62,12 +63,12 @@ public class Commande {
 		this.user = user;
 	}
 
-	public Set<AchatsEvents> getEvents() {
-		return events;
+	public List<AchatsEvents> getEvents() {
+		return achatsEvents;
 	}
 
-	public void setAchatsEvents(Set<AchatsEvents> events) {
-		this.events = events;
+	public void setAchatsEvents(List<AchatsEvents> events) {
+		this.achatsEvents = events;
 	}
 	
 	

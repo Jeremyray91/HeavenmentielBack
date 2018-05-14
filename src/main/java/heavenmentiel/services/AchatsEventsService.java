@@ -22,7 +22,6 @@ public class AchatsEventsService {
 		ObjectNode rootNode = mapper.createObjectNode();
 		rootNode.put("id", achat.getId());
 		rootNode.putPOJO("event", evs.toJsonEvent(achat.getEvent()));
-		rootNode.put("commandeEvent",achat.getEvent().getId());
 		rootNode.put("commandeId",achat.getCommande().getId());
 		rootNode.put("quantite",achat.getQte());
 		return rootNode;
