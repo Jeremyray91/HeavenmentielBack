@@ -31,12 +31,12 @@ public class CommandController {
 	@Autowired CommandeService commandService;
 	@Autowired protected Environment env;
 	
-	@RequestMapping(value="", method = RequestMethod.GET)
+	@RequestMapping(value="/commandes", method = RequestMethod.GET)
 	public JsonNode getAll() {
 		return commandService.getAll();
 	}
 	
-	@RequestMapping(value="", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/commandes", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Commande create(@RequestBody Commande commande) {
 		return commandService.create(commande);
 	}

@@ -41,8 +41,8 @@ public class CommandeRepo {
 	public Commande create(Commande commande) {
 		em.persist(commande);
 		for(AchatsEvents ae : commande.getEvents()) {
-			System.out.println(ae.getEvent().getStock());
 			Integer newStock = ae.getEvent().getStock() - ae.getQte();
+			ae.getEvent().setStock(newStock);
 			em.merge(ae.getEvent());
 			ae.setCommande(commande);
 			em.persist(ae);
