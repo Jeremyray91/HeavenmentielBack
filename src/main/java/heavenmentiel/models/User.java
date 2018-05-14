@@ -45,8 +45,8 @@ public class User {
 	//@NotBlank
 	private RoleEnum role;
 	
-	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
-	private List<Commande> commands;
+//	@OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+//	private List<Commande> commands;
 
 	public User() {
 
@@ -154,12 +154,12 @@ public class User {
 		this.role = role;
 	}
 	
-	public List<Commande> getCommands() {
-		return commands;
-	}
-
-	public void setCommands(List<Commande> commands) {
-		this.commands = commands;
-	}
+//	public List<Commande> getCommands() {
+//		return commands;
+//	}
+//
+//	public void setCommands(List<Commande> commands) {
+//		this.commands = commands;
+//	}
 
 }

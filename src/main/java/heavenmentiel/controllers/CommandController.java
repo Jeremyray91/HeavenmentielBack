@@ -24,14 +24,19 @@ import heavenmentiel.services.EventService;
 import heavenmentiel.utils.Utils;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/api/commandes")
+@CrossOrigin
 public class CommandController {
 	
 	@Autowired CommandeService commandService;
 	@Autowired protected Environment env;
 	
-	@RequestMapping(value="/commandes", method = RequestMethod.POST)
+	@RequestMapping(value="", method = RequestMethod.GET)
+	public JsonNode getAll() {
+		return commandService.getAll();
+	}
+	
+	@RequestMapping(value="", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Commande create(@RequestBody Commande commande) {
 		return commandService.create(commande);
 	}
