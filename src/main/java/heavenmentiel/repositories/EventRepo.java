@@ -111,7 +111,7 @@ public class EventRepo {
 		Root<Event> c = q.from(Event.class);
 		TypedQuery<Event> query = em.createQuery(q);
 		
-		q = q.select(c).where(getMulticriteriaPredicate(name, datemin, datemax, place, types, pricemin, pricemax, role));
+		q = q.select(c).where(getMulticriteriaPredicate(name, datemin, datemax, place, types, pricemin, pricemax, role)).orderBy(cb.desc(c.get("dateEvent")));
 		query = em.createQuery(q);
 		for(Object [] param : getMultiCriteriaParameters(name, datemin, datemax, place, types, pricemin, pricemax, role)) {
 			query.setParameter((String) param[0],param[1]);
